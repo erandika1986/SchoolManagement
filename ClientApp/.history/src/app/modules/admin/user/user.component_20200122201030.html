@@ -1,0 +1,346 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header"><b>USER</b></div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="role">Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="role" class="form-control" name="roleId" 
+                                [(ngModel)]="roleId" (change)="roleOnChange()">
+                                    <option value="0">All</option>
+                                    <option value="1">role-01</option>
+                                    <option value="2">role-02</option>
+                                    <option value="3">role-03</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="search">Search</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <input id="search" type="text" name="name" [(ngModel)]="name" class="form-control" 
+                                    placeholder="Search by name">
+                                    <span class="input-group-append">
+                                      <button type="button" class="btn btn-primary" 
+                                      (click)="searchOnClick()">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-primary btn-sm">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </th>
+                        <th (click)="sortByName()">Name</th>
+                        <th (click)="sortByUserName()">User Name</th>
+                        <th (click)="sortByEmail()">Email</th>
+                        <th (click)="sortByNickName()">Nick Name</th>
+                        <th (click)="sortByUserRole()">User Role</th>
+                        <th (click)="sortByUpdatedOn()">Updated On</th>
+                        <th (click)="sortByUpdatedBy()">Updated By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of data">
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                            <button type="button" class="btn btn-warning btn-sm ml-1">
+                                <span class="fa fa-pencil"></span>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm ml-1" (click)="deleteUser()">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </td>
+                        <td>{{user.fullName}}</td>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.nickName}}</td>
+                        <td>{{user.roles}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header"><b>Create New or Edit existing user</b></div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userName">Username</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="userName" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="email" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userRole">User Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="sa" id="superAdmin">
+                                    <label class="form-check-label" for="superAdmin">Super Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="a" id="admin">
+                                    <label class="form-check-label" for="admin">Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="h" id="HOD">
+                                    <label class="form-check-label" for="HOD">HOD</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="t" id="teacher">
+                                    <label class="form-check-label" for="teacher">Teacher</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary btn-md">
+                        <span class="fa fa-database"></span> Save
+                    </button>
+                    <button type="button" class="btn btn-danger btn-md ml-1">
+                        <span class="fa fa-window-close"></span> Cancle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <br>
+            <div class="pagination">
+                <pagination [totalItems]="totalRecordCount" 
+                [(ngModel)]="currentPage" [itemsPerPage]="pageSize" 
+                (pageChange)="onPageChange()" aria-label="Default pagination">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="container-fluid">
+    <div class="card">
+        <div class="card-header"><b>USER</b></div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="role">Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="role" class="form-control">
+                                <option [value]="all.id">{{all.name}}</option>
+                                    <option value="1">role-01</option>
+                                    <option value="2">role-02</option>
+                                    <option value="3">role-03</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="search">Search</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <input id="search" type="text" class="form-control" placeholder="Search by name">
+                                    <span class="input-group-append">
+                                      <button type="button" class="btn btn-primary">Go</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-primary btn-sm">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th>Name</th>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>User Role</th>
+                        <th>Updated On</th>
+                        <th>Updated By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm">
+                                <span class="fa fa-eye"></span>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-warning btn-sm">
+                                <span class="fa fa-pencil"></span>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <div class="pagination">
+                <pagination [totalItems]="totalRecordCount" 
+                [(ngModel)]="currentPage" [itemsPerPage]="pageSize" 
+                (pageChange)="onPageChange()" aria-label="Default pagination">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!-- <div class="container-fluid">
+    <div class="card">
+        <div class="card-header"><b>Create New or Edit existing user</b></div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userName">Username</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="userName" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="email" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userRole">User Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="sa" id="superAdmin">
+                                    <label class="form-check-label" for="superAdmin">Super Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="a" id="admin">
+                                    <label class="form-check-label" for="admin">Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="h" id="HOD">
+                                    <label class="form-check-label" for="HOD">HOD</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="t" id="teacher">
+                                    <label class="form-check-label" for="teacher">Teacher</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary btn-md">
+                        <span class="fa fa-database"></span> Save
+                    </button>
+                    <button type="button" class="btn btn-danger btn-md ml-1">
+                        <span class="fa fa-window-close"></span> Cancle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

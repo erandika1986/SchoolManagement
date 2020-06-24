@@ -1,0 +1,83 @@
+<div class="container-fluid">
+    <div class="card-border-0">
+        <br>
+        <div class="card-header"><b>Create New or Edit existing user</b></div>
+        <div class="card-body">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="name" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userName">Username</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="userName" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="email" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userRole">User Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="sa" id="superAdmin">
+                                    <label class="form-check-label" for="superAdmin">Super Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="a" id="admin">
+                                    <label class="form-check-label" for="admin">Admin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="h" id="HOD">
+                                    <label class="form-check-label" for="HOD">HOD</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="t" id="teacher">
+                                    <label class="form-check-label" for="teacher">Teacher</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-primary btn-md">
+                        <span class="fa fa-database"></span> Save
+                    </button>
+                    <button type="button" class="btn btn-danger btn-md ml-1" (click)="modalRef.hide(0)">
+                        <span class="fa fa-window-close"></span> Cancle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

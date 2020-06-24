@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.6.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SchoolManagement.Data.Contract\SchoolManagement.Data.Contract.csproj" />
+    <ProjectReference Include="..\SchoolManagement.Data\SchoolManagement.Data.csproj" />
+    <ProjectReference Include="..\SchoolManagement.Master.Data\SchoolManagement.Master.Data.csproj" />
+    <ProjectReference Include="..\SchoolManagement.Model\SchoolManagement.Model.csproj" />
+    <ProjectReference Include="..\SchoolManagement.Util\SchoolManagement.Util.csproj" />
+    <ProjectReference Include="..\SchoolManagement.ViewModel\SchoolManagement.ViewModel.csproj" />
+  </ItemGroup>
+
+</Project>

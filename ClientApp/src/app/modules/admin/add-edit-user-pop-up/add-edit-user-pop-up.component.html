@@ -1,0 +1,146 @@
+<div class="container-fluid">
+    <div class="card-border-0">
+        <br>
+        <div class="card-header">
+            <b>{{recordId === 0? "Add User : New" : "Edit Existing User"}}</b>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="fullName">Full Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="fullName" type="text" class="form-control" formControlName="fullName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="nickName">Nickname</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="nickName" type="text" class="form-control" formControlName="nickName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="email">Email</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="email" type="text" class="form-control" formControlName="email">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="mobileNo">Mobile No</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="mobileNo" type="text" class="form-control" formControlName="mobileNo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userName">Username</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="userName" type="text" class="form-control" formControlName="username">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="password" type="password" class="form-control" formControlName="password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="isActive">Is Active</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="isActive" class="form-control" formControlName="isActive">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="userRole">User Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-check" formArrayName="roles"
+                                    *ngFor="let control of userRoles.controls; let i=index">
+
+                                    <input class="form-check-input" type="checkbox" [formControl]="control" id=chx{{i}}>
+                                    <label class="form-check-label">{{user.roles[i].name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success btn-md" (click)="saveOrUpdateUser()">
+                            <span class="fa fa-save"></span> Save
+                        </button>
+                        <button type="button" class="btn btn-danger btn-md ml-1" (click)="hideModal()">
+                            <span class="fa fa-window-close"></span> Cancle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- <div class=" row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary btn-md" (click)="saveOrUpdateUser()">
+                                <span class="fa fa-database"></span> Save
+                            </button>
+                            <button type="button" class="btn btn-danger btn-md ml-1" (click)="hideModal()">
+                                <span class="fa fa-window-close"></span> Cancle
+                            </button>
+                        </div>
+                    </div> -->
+            </form>
+        </div>
+    </div>
+</div>

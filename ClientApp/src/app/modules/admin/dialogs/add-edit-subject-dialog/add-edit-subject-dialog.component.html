@@ -1,0 +1,173 @@
+<div class="container-fluid">
+    <div class="card-border-0">
+        <br>
+        <div class="card-header">
+            <b>{{subjectId === 0? "Add New Subject" : "Edit Existing Subject"}}</b>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="txtName">Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="txtName" type="text" class="form-control" formControlName="name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="txtSubjectCode">Subject Code</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input id="txtSubjectCode" type="text" class="form-control"
+                                    formControlName="subjectCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="txtName">Is Parent Basket Subject</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="parentSubjectSelector" class="form-control"
+                                    formControlName="isParentBasketSubject" (change)="isParentChanged($event)">
+                                    <option *ngFor="let selection of booleanSelection" [ngValue]="selection.value">
+                                        {{selection.text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="txtName">Is Busket Subject</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="BasketSubjectSelector" class="form-control"
+                                    formControlName="isBasketSubject" (change)="isBasketSubjectChanged($event)">
+                                    <!--                                     <option value="true">Yes</option>
+                                    <option value="false">No</option> -->
+                                    <option *ngFor="let selection of booleanSelection" [ngValue]="selection.value">
+                                        {{selection.text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="subjectCategory">Subject Category</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="subjectCategory" class="form-control" formControlName="subjectCategory">
+                                    <option value="1">Junior School Subject</option>
+                                    <option value="2">Senior School Subject</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="isActive">Is Active</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="isActive" class="form-control" formControlName="isActive">
+                                    <option *ngFor="let selection of booleanSelection" [ngValue]="selection.value">
+                                        {{selection.text}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header"><b>Selected Academic Levels</b></div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 20%;">Is Select</th>
+                                                <th style="width: 20%;">Grade</th>
+                                                <th style="width: 40%;">No of Period Per Week</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody formArrayName="academicLevels">
+                                            <tr *ngFor="let item of academicLevels.controls; index as i"
+                                                [formGroupName]="i">
+                                                <td style="text-align: center;"><input class="form-check-input"
+                                                        id="inline-checkbox1" type="checkbox"
+                                                        formControlName="isChecked"
+                                                        (change)="checkedChange(item.value.isChecked,item)"></td>
+                                                <td>{{item.value.description}}</td>
+                                                <td><input type="number" class="form-control" style="width: 100%;"
+                                                        formControlName="noOfPeriodPerWeek"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="basketSubjects">Parent Subject</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="isActive" class="form-control" formControlName="parentSubjectId"
+                                    (change)="parentSubjectChanged($event)">
+                                    <option *ngFor="let item of parentSubjects" [ngValue]="item.id">
+                                        {{item.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="submit" class="btn btn-success btn-md" (click)="save()">
+                            <span class="fa fa-save"></span> Save
+                        </button>
+                        <button type="button" class="btn btn-danger btn-md ml-1" (click)="cancel()">
+                            <span class="fa fa-window-close"></span> Cancle
+                        </button>
+                    </div>
+                </div>
+
+                <!-- <div class=" row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary btn-md" (click)="saveOrUpdateUser()">
+                                    <span class="fa fa-database"></span> Save
+                                </button>
+                                <button type="button" class="btn btn-danger btn-md ml-1" (click)="hideModal()">
+                                    <span class="fa fa-window-close"></span> Cancle
+                                </button>
+                            </div>
+                        </div> -->
+            </form>
+        </div>
+    </div>
+</div>

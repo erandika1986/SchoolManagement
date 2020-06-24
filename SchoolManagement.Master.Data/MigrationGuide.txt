@@ -1,0 +1,8 @@
+﻿Enable-Migrations -Project SchoolManagement.Master.Data -StartUp SchoolManagement.WebApi -Verbose
+
+
+Add-Migration SMMasterMS000001 -Project SchoolManagement.Master.Data -StartUp SchoolManagement.WebApi -Verbose -Context MasterDBContext
+
+
+Update-Database -Project SchoolManagement.Master.Data -StartUp SchoolManagement.WebApi -Verbose -Context MasterDBContext
+

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header"><b>Assessment Types</b></div>
+        <div class="card-body">
+            <br>
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="min-width:200px;">
+                                <button type="button" class="btn btn-success btn-sm" (click)="edit(0)">
+                                    <span class="fa fa-plus"></span>
+                                </button>
+                            </th>
+                            <th>Name<i class="fa fa-fw fa-sort" (click)="doSorting('Name')"></i></th>
+                            <th>Description<i class="fa fa-fw fa-sort" (click)="doSorting('Description')"></i></th>
+                            <th>Assigned Levels<i class="fa fa-fw fa-sort" (click)="doSorting('Levels')"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let at of data">
+                            <td>
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                                        <button type="button" class="btn btn-warning btn-sm ml-1" (click)="edit(at.id)">
+                                            <span class="fa fa-pencil"></span>
+                                        </button>
+                                    </div>
+                                    <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                        <button type="button" class="btn btn-danger btn-sm ml-1"
+                                            (click)="delete(at.id)">
+                                            <span class="fa fa-trash"></span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </td>
+                            <td>{{at.name}}</td>
+                            <td>{{at.description}}</td>
+                            <td>{{at.levels}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <br>
+            <div class="pagination">
+                <pagination [totalItems]="totalRecordCount" [(ngModel)]="currentPage" [itemsPerPage]="pageSize"
+                    (pageChanged)="pageChanged($event)" aria-label="Default pagination">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>
