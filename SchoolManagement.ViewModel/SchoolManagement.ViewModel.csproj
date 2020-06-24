@@ -11,6 +11,7 @@
   <ItemGroup>
     <Folder Include="Account\" />
     <Folder Include="Admin\LocakingDate\" />
+    <Folder Include="Admin\ClassTeacher\" />
   </ItemGroup>
 
 </Project>
