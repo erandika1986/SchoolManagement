@@ -68,6 +68,8 @@ namespace SchoolManagement.WebApi
             builder.RegisterType<StudentService>().As<IStudentService>().InstancePerDependency();
             builder.RegisterType<AssessmentTypeService>().As<IAssessmentTypeService>().InstancePerDependency();
             builder.RegisterType<AcademicYearService>().As<IAcademicYearService>().InstancePerDependency();
+            builder.RegisterType<SubjectClassTeacherService>().As<ISubjectClassTeacherService>().InstancePerDependency();
+            builder.RegisterType<SubjectTeacherService>().As<ISubjectTeacherService>().InstancePerDependency(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

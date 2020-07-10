@@ -8,6 +8,8 @@ import { SubjectComponent } from './subject/subject.component';
 import { StudentComponent } from './student/student.component';
 import { HodComponent } from './hod/hod.component';
 import { AssessmentTypeComponent } from './assessment-type/assessment-type.component';
+import { ClassSubjectTeacherComponent } from './class-subject-teacher/class-subject-teacher.component';
+import { SubjectTeacherComponent } from './subject-teacher/subject-teacher.component';
 
 
 const routes: Routes = [
@@ -67,10 +69,17 @@ const routes: Routes = [
         }
       },
       {
-        path: 'class-subject-teacher',
-        component: HodComponent,
+        path: 'subject-teacher',
+        component: SubjectTeacherComponent,
         data: {
-          title: 'Class & SUbject Teacher'
+          title: 'Subject Teacher'
+        }
+      },
+      {
+        path: 'class-subject-teacher',
+        component: ClassSubjectTeacherComponent,
+        data: {
+          title: 'Class & Subject Teacher'
         }
       },
 

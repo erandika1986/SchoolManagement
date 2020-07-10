@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="card">
-        <div class="card-header"><b>Class & Subject Teachers</b></div>
+        <div class="card-header"><b>Subject Teachers</b></div>
         <div class="card-body">
             <form>
                 <div class="row">
@@ -40,16 +40,16 @@
                     <thead>
                         <tr>
                             <th style="min-width:200px;">
-                                <button type="button" class="btn btn-success btn-sm"
-                                    (click)="edit(selectedAcademicYearId,selectedAcademicLevelId,0)">
-                                    <span class="fa fa-plus"></span>
-                                </button>
+
                             </th>
-                            <th>Academic Year<i class="fa fa-fw fa-sort" (click)="doSorting('AcademicYear')"></i></th>
-                            <th>Academic Level<i class="fa fa-fw fa-sort" (click)="doSorting('AcademicLevel')"></i></th>
-                            <th>Class<i class="fa fa-fw fa-sort" (click)="doSorting('ClassName')"></i></th>
-                            <th>Updated On<i class="fa fa-fw fa-sort" (click)="doSorting('UpdatedBy')"></i></th>
-                            <th>Updated By<i class="fa fa-fw fa-sort" (click)="doSorting('UpdatedOn')"></i></th>
+                            <th style="width: 20%;">Academic Year<i class="fa fa-fw fa-sort"
+                                    (click)="doSorting('AcademicYear')"></i></th>
+                            <th style="width: 20%;">Academic Level<i class="fa fa-fw fa-sort"
+                                    (click)="doSorting('AcademicLevel')"></i></th>
+                            <th style="width: 20%;">Subject<i class="fa fa-fw fa-sort"
+                                    (click)="doSorting('Subject')"></i></th>
+                            <th style="width: 40%;">Techers Name<i class="fa fa-fw fa-sort"
+                                    (click)="doSorting('Techers')"></i></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,14 +57,12 @@
                             <td>
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2" role="group" aria-label="First group">
-                                        <button type="button" class="btn btn-warning btn-sm ml-1"
-                                            (click)="edit(item.academicYearId,item.academicLevelId,item.classNameId)">
+                                        <button type="button" class="btn btn-warning btn-sm ml-1" (click)="edit(item)">
                                             <span class="fa fa-pencil"></span>
                                         </button>
                                     </div>
                                     <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                        <button type="button" class="btn btn-danger btn-sm ml-1"
-                                            (click)="delete(at.id)">
+                                        <button type="button" class="btn btn-danger btn-sm ml-1" (click)="delete(vm)">
                                             <span class="fa fa-trash"></span>
                                         </button>
                                     </div>
@@ -73,20 +71,11 @@
                             </td>
                             <td>{{item.academicYearId}}</td>
                             <td>{{item.academicLevelName}}</td>
-                            <td>{{item.name}}</td>
-                            <td>{{item.updatedOn}}</td>
-                            <td>{{item.updatedBy}}</td>
+                            <td>{{item.subjectName}}</td>
+                            <td>{{item.techersName}}</td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-
-
-            <br>
-            <div class="pagination">
-                <pagination [totalItems]="totalRecordCount" [(ngModel)]="currentPage" [itemsPerPage]="pageSize"
-                    (pageChanged)="pageChanged($event)" aria-label="Default pagination">
-                </pagination>
             </div>
         </div>
     </div>

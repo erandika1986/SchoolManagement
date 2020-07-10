@@ -43,6 +43,11 @@ export const navItems: INavData[] = [
                 icon: 'icon-drop'
             },
             {
+                name: 'Subject Teacher',
+                url: '/admin/subject-teacher',
+                icon: 'icon-drop'
+            },
+            {
                 name: 'Class Teacher',
                 url: '/admin/class-subject-teacher',
                 icon: 'icon-drop'

@@ -1,0 +1,129 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Add New Class & Subject Teachers</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="role">Academic Year</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="academicYearId" class="form-control" name="academicYearId" [disabled]="type=='edit'"
+                            [(ngModel)]="selectedAcademicYearId" (change)="academicYearOnChange()">
+                            <option *ngFor="let item of academicYears" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="role">Academic Level</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="academicYearId" class="form-control" name="academicYearId" [disabled]="type=='edit'"
+                            [(ngModel)]="selectedAcademicLevelId" (change)="academicLevelOnChange()">
+                            <option *ngFor="let item of academicLevels" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="role">Class Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="academicYearId" class="form-control" name="academicYearId" [disabled]="type=='edit'"
+                            [(ngModel)]="selectedClassNameId" (change)="classOnChange()">
+                            <option *ngFor="let item of classes" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-6">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label for="role">Class Teacher</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="classTeacher" class="form-control" name="classTeacher"
+                            [(ngModel)]="selectedClassTecherId" (change)="classOnChange()">
+                            <option *ngFor="let item of availableClassTeachers" [value]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--             <div class="col-12 col-ms-6 col-lg-6">
+
+                <form class="form-inline">
+
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="classTeacher" class="mr-2">Class Teacher</label>
+                        <select id="classTeacher" class="form-control" style="width: 200px;" name="classTeacher"
+                            [disabled]="type=='edit'" [(ngModel)]="selectedClassNameId" (change)="classOnChange()">
+                            <option *ngFor="let item of classes" [value]="item.id">{{item.name}}</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="staticEmail2" class="mr-2">Is Primary</label>
+
+
+
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2"> <span class="fa fa-plus"></span></button>
+                </form>
+            </div> -->
+        </div>
+    </div>
+    <br>
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-8">
+
+                <div class="row">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 50%;">Subject</th>
+                                <th style="width: 50%;">Subject Teacher</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of classSubjecTeacher?.classSubjectTeachers">
+
+                                <td>
+                                    <select class="form-control" [(ngModel)]="item.selectedSubjectId">
+                                        <option *ngFor="let item of academicLevelSubjects" [value]="item.id">
+                                            {{item.name}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="item.selectedTeacherId">
+                                        <option *ngFor="let item of item.classSubjectTeachers" [value]="item.id">
+                                            {{item.name}}</option>
+                                    </select>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="bsModalRef.hide()">Save</button>
+</div>
