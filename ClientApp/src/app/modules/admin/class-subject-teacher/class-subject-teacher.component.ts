@@ -122,4 +122,8 @@ export class ClassSubjectTeacherComponent implements OnInit {
     this.getClassTeacherSubjectTeacherAllocations();
   }
 
+  doSorting(value: string) {
+
+  }
+
 }

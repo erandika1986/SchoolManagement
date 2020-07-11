@@ -180,7 +180,7 @@ namespace SchoolManagement.Business
 
         public UserMasterDataViewModel GetUserMasterData()
         {
-            var query = uow.Roles.GetAll();
+            var query = uow.Roles.GetAll().ToList();
             var masterData = new UserMasterDataViewModel();
             foreach(Role role in query)
             {
@@ -197,6 +197,26 @@ namespace SchoolManagement.Business
                 var createdUser = uow.Users.GetAll().FirstOrDefault(t => t.Username == userName);
                 var selectedRoles = vm.Roles.Where(t => t.IsCheck == true).Select(t => t.Id).ToList();
                 var createdDateTime = DateTime.UtcNow;
+
+                var existingUserName = uow.Users.GetAll().FirstOrDefault(t => t.Username.Trim().ToUpper() == vm.Username.Trim().ToUpper());
+
+                if (existingUserName != null) 
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Username is aready taken.";
+
+                    return response;
+                }
+
+                var existingEmail = uow.Users.GetAll().FirstOrDefault(t => t.Email.Trim().ToUpper() == vm.Email.Trim().ToUpper());
+
+                if (existingUserName != null)
+                {
+                    response.IsSuccess = false;
+                    response.Message = "Email is aready exist for registered user.";
+
+                    return response;
+                }
 
                 var user = new User()
                 {

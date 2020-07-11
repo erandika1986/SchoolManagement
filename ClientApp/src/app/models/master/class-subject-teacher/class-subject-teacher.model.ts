@@ -5,7 +5,10 @@ export class ClassSubjectTeacherModel {
     academicYearId: number;
     academicLevelId: number;
     classNameId: number;
+    selectedClassTeacherId: number;
+    isvalidClassTeacher: boolean;
+    validationMsg: string;
 
-    classTeachers: ClassTeacherModel[];
+    //classTeachers: ClassTeacherModel[];
     classSubjectTeachers: SubjectTeacherModel[];
 }

@@ -16,6 +16,10 @@ namespace SchoolManagement.Data.Configurations
 
             builder.HasKey(x => x.Id);
 
+            builder.HasIndex(r => r.Username).IsUnique();
+
+            builder.HasIndex(r => r.Email).IsUnique();
+
             builder
                 .HasOne<User>(s => s.CreatedBy)
                 .WithMany(r => r.CreatedUsers)

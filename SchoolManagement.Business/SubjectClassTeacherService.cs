@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using SchoolManagement.Model;
+using SchoolManagement.Util;
 
 namespace SchoolManagement.Business
 {
@@ -63,7 +64,7 @@ namespace SchoolManagement.Business
             int totalPageCount = 0;
             var vms = new List<ClassSubjectTeacherBasicDetailViewModel>();
 
-            var classTeachers = uow.ClassTeachers.GetAll().Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicYearId);
+            var classTeachers = uow.ClassTeachers.GetAll().Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId);
 
             totalRecordCount = classTeachers.Count();
             totalPages = (double)totalRecordCount / pageSize;
@@ -100,13 +101,15 @@ namespace SchoolManagement.Business
 
             if(classSubjectTeachers.Count>0)
             {
-                var classTeachers = uow.ClassTeachers.GetAll()
-                .Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId && t.ClassNameId == classNameId);
+                var classTeacher = uow.ClassTeachers.GetAll()
+                .FirstOrDefault(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId && t.ClassNameId == classNameId);
 
 
                 response.AcademicLevelId = academicLevelId;
                 response.AcademicYearId = academicYearId;
                 response.ClassNameId = classNameId;
+                response.SelectedClassTeacherId = classTeacher.TeacherId;
+                response.IsvalidClassTeacher = true;
 
                 var academicLevelSubjects = uow.SubjectAcademicLevels.GetAll()
         .Where(t => t.AcademicLevelId == academicLevelId && t.Subject.IsActive == true
@@ -120,7 +123,8 @@ namespace SchoolManagement.Business
                     {
                         SelectedSubjectId = item.SubjectId,
                         SubjectTeachers = GetSubjectTeachers(academicYearId, academicLevelId, item.SubjectId),
-                        SelectedTeacherId = matchingSubjectTeacher != null ? matchingSubjectTeacher.SubjectTeacherId : 0
+                        SelectedTeacherId = matchingSubjectTeacher != null ? matchingSubjectTeacher.SubjectTeacherId : 0,
+                        Isvalid= matchingSubjectTeacher != null ? true : false,
                     }); 
                 }
 
@@ -133,23 +137,26 @@ namespace SchoolManagement.Business
                 //    });
                 //}
 
-                foreach (var item in classTeachers)
-                {
-                    response.ClassTeachers.Add(new ClassTeacherViewModel()
-                    {
-                        AcademicLevelId = item.AcademicLevelId,
-                        AcademicYearId = item.AcademicYearId,
-                        ClassNameId = item.ClassNameId,
-                        IsPrimaryTeacher = item.IsPrimary,
-                        SelectedTeacherId = item.TeacherId
-                    });
-                }
+                //foreach (var item in classTeachers)
+                //{
+                //    response.ClassTeachers.Add(new ClassTeacherViewModel()
+                //    {
+                //        AcademicLevelId = item.AcademicLevelId,
+                //        AcademicYearId = item.AcademicYearId,
+                //        ClassNameId = item.ClassNameId,
+                //        IsPrimaryTeacher = item.IsPrimary,
+                //        SelectedTeacherId = item.TeacherId
+                //    });
+                //}
             }
             else
             {
                 response.AcademicLevelId = academicLevelId;
                 response.AcademicYearId = academicYearId;
                 response.ClassNameId = classNameId;
+                response.SelectedClassTeacherId = 0;
+                response.IsvalidClassTeacher = false;
+                response.ValidationMsg = "Must be select the class teacher.";
 
                 var academicLevelSubjects = uow.SubjectAcademicLevels.GetAll()
         .Where(t => t.AcademicLevelId == academicLevelId && t.Subject.IsActive == true
@@ -162,8 +169,11 @@ namespace SchoolManagement.Business
                     {
                         SelectedSubjectId = item.SubjectId,
                         SubjectTeachers = GetSubjectTeachers(academicYearId, academicLevelId, item.SubjectId),
-                        SelectedTeacherId =  0
-                    });
+                        SelectedTeacherId = 0,
+                        Isvalid = false,
+                        ValidationMsg = "Please select the subject teacher."
+                    }); ;
+                    ;
                 }
             }
 
@@ -182,19 +192,17 @@ namespace SchoolManagement.Business
 
 
                 //For Class Teacher assign
-                var savedClassTeachers = uow.ClassTeachers.GetAll().Where(t => t.AcademicYearId == vm.AcademicYearId && t.AcademicLevelId == vm.AcademicLevelId && t.ClassNameId == vm.ClassNameId).ToList() ;
+                var savedClassTeacher = uow.ClassTeachers.GetAll().FirstOrDefault(t => t.AcademicYearId == vm.AcademicYearId && t.AcademicLevelId == vm.AcademicLevelId && t.ClassNameId == vm.ClassNameId && t.IsPrimary==true) ;
 
-                var newClassTeachers = (from clt in vm.ClassTeachers where !savedClassTeachers.Any(t=>t.TeacherId==clt.SelectedTeacherId) select clt).ToList();
-
-                foreach (var item in newClassTeachers)
+                if(savedClassTeacher==null)
                 {
                     var classTeacher = new ClassTeacher()
                     {
                         ClassNameId = vm.ClassNameId,
                         AcademicLevelId = vm.AcademicLevelId,
                         AcademicYearId = vm.AcademicYearId,
-                        TeacherId = item.SelectedTeacherId,
-                        IsPrimary = item.IsPrimaryTeacher,
+                        TeacherId = vm.SelectedClassTeacherId,
+                        IsPrimary = true,
                         CreatedOn = DateTime.UtcNow,
                         CreatedById = user.Id,
                         UpdatedOn = DateTime.UtcNow,
@@ -203,24 +211,16 @@ namespace SchoolManagement.Business
 
                     uow.ClassTeachers.Add(classTeacher);
                 }
-
-                var deletedClassTeachers = (from scl in savedClassTeachers where !vm.ClassTeachers.Any(t => t.SelectedTeacherId == scl.TeacherId) select scl).ToList();
-
-                foreach (var item in deletedClassTeachers)
+                else
                 {
-                    uow.ClassTeachers.Delete(item);
+                    savedClassTeacher.TeacherId = vm.SelectedClassTeacherId;
+                    savedClassTeacher.UpdatedById = user.Id;
+                    savedClassTeacher.UpdatedOn = DateTime.UtcNow;
+
+                    uow.ClassTeachers.Update(savedClassTeacher);
                 }
 
-                var updatedClassTeachers = (from clt in vm.ClassTeachers where savedClassTeachers.Any(t => t.TeacherId == clt.SelectedTeacherId) select clt).ToList();
-                foreach (var item in updatedClassTeachers)
-                {
-                    var classTeacher = uow.ClassTeachers.GetAll().FirstOrDefault(t => t.AcademicYearId == vm.AcademicYearId && t.AcademicLevelId == vm.AcademicLevelId && t.ClassNameId == vm.ClassNameId && t.TeacherId == item.SelectedTeacherId);
-                    classTeacher.IsPrimary = item.IsPrimaryTeacher;
-                    classTeacher.UpdatedOn = DateTime.UtcNow;
-                    classTeacher.UpdatedById = user.Id;
 
-                    uow.ClassTeachers.Update(classTeacher);
-                }
 
                 //For Class Subject teacher assign
                 var academicLevelSubjects = uow.SubjectAcademicLevels.GetAll().Where(t => t.AcademicLevelId == vm.AcademicLevelId && t.Subject.IsActive==true && (t.Subject.IsParentBasketSubject == false || t.Subject.IsBuscketSubject == true)).ToList();
@@ -372,5 +372,53 @@ namespace SchoolManagement.Business
 
             return response;
         }
+
+        public ResponseViewModel ValidateClassTeacher(long academicYearId,long academicLevelId,long classNameId,long teacherId)
+        {
+            var response = new ResponseViewModel();
+
+            var teacher = uow.ClassTeachers.GetAll().FirstOrDefault(t => t.ClassNameId != classNameId &&
+            t.AcademicYearId == academicYearId &&
+            t.AcademicLevelId == academicLevelId &&
+            t.TeacherId == teacherId);
+
+            if(teacher==null)
+            {
+                response.IsSuccess = true;
+                response.Message = "Teacher is available";
+            }
+            else
+            {
+                response.IsSuccess = true;
+                response.Message = "Selected teacher is already assigned to the another class.";
+            }
+
+            return response;
+        }
+
+        public ResponseViewModel ValidateAssignedSubjectTeacher(long academicYearId, long academicLevelId, long classNameId,long subjectId, long teacherId)
+        {
+            var response = new ResponseViewModel();
+
+            var totalNoOfPeriodPerWeek = uow.ClassSubjectTeachers.GetAll().Where(t => t.IsActive == true && t.AcademicYearId == academicYearId && t.SubjectTeacherId == teacherId).Sum(t => t.SubjectAcademicLevel.NoOfPeriodPerWeek);
+
+            var newAssignedSubjectCountPerWeek = uow.SubjectAcademicLevels.GetAll().FirstOrDefault(t => t.SubjectId == subjectId && t.AcademicLevelId == academicLevelId).NoOfPeriodPerWeek;
+
+            if((totalNoOfPeriodPerWeek+ newAssignedSubjectCountPerWeek)>Constants.TEACHER_MAXIMUM_PERIOD_PER_WEEK)
+            {
+                response.IsSuccess = false;
+                response.Message = "Unable to assigned this teacher as a subject teacher,Since his/her total weekly period count exceed the maximum weekly period count for the teacher.";
+            }
+            else
+            {
+                response.IsSuccess = true;
+                response.Message = "Subject teacher is available";
+            }
+
+            return response;
+        }
+
+
+
     }
 }

@@ -30,10 +30,11 @@ import { AddEditSubjectDialogComponent } from './dialogs/add-edit-subject-dialog
 import { AddEditAssessmentTypeDialogComponent } from './dialogs/add-edit-assessment-type-dialog/add-edit-assessment-type-dialog.component';
 import { AddEditClassSubjectTeacherDialogComponent } from './dialogs/add-edit-class-subject-teacher-dialog/add-edit-class-subject-teacher-dialog.component';
 import { SubjectTeacherComponent } from './subject-teacher/subject-teacher.component';
+import { AddEditSubjectTeacherDialogComponent } from './dialogs/add-edit-subject-teacher-dialog/add-edit-subject-teacher-dialog.component';
 
 
 @NgModule({
-  declarations: [UserComponent, AddEditUserPopUpComponent, AcademicLevelComponent, ClassNameComponent, SubjectComponent, AssessmentTypeComponent, AcademicYearComponent, HodComponent, StudentComponent, ClassSubjectTeacherComponent, AddEditAcademicYearDialogComponent, AddEditAcademicLevelDialogComponent, ClassNameDialogComponent, AddEditClassNameDialogComponent, AddEditSubjectDialogComponent, AddEditAssessmentTypeDialogComponent, AddEditClassSubjectTeacherDialogComponent, SubjectTeacherComponent],
+  declarations: [UserComponent, AddEditUserPopUpComponent, AcademicLevelComponent, ClassNameComponent, SubjectComponent, AssessmentTypeComponent, AcademicYearComponent, HodComponent, StudentComponent, ClassSubjectTeacherComponent, AddEditAcademicYearDialogComponent, AddEditAcademicLevelDialogComponent, ClassNameDialogComponent, AddEditClassNameDialogComponent, AddEditSubjectDialogComponent, AddEditAssessmentTypeDialogComponent, AddEditClassSubjectTeacherDialogComponent, SubjectTeacherComponent, AddEditSubjectTeacherDialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -47,6 +48,6 @@ import { SubjectTeacherComponent } from './subject-teacher/subject-teacher.compo
     NgSelectModule
   ],
   providers: [EventService],
-  entryComponents: [ConfirmationDialogComponent, AddEditUserPopUpComponent, AddEditAcademicLevelDialogComponent, AddEditAcademicYearDialogComponent, AddEditClassNameDialogComponent, AddEditSubjectDialogComponent, AddEditAssessmentTypeDialogComponent, AddEditClassSubjectTeacherDialogComponent]
+  entryComponents: [ConfirmationDialogComponent, AddEditUserPopUpComponent, AddEditAcademicLevelDialogComponent, AddEditAcademicYearDialogComponent, AddEditClassNameDialogComponent, AddEditSubjectDialogComponent, AddEditAssessmentTypeDialogComponent, AddEditClassSubjectTeacherDialogComponent, AddEditSubjectTeacherDialogComponent]
 })
 export class AdminModule { }

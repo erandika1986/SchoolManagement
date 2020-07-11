@@ -120,7 +120,7 @@ namespace SchoolManagement.Business
         {
             var response = new List<AcademicLevelSubjectsAllocationViewModel>();
 
-            var subjectTeachers = uow.SubjectTeachers.GetAll().Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId).ToList()
+            var subjectTeachers = uow.SubjectTeachers.GetAll().Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId && t.IsActive==true).ToList()
                 .GroupBy(t => t.SubjectId, (x, y) => new { Key=x,Subjects=y.ToList()}).ToList();
 
             //For Class Subject teacher assign
@@ -158,7 +158,7 @@ namespace SchoolManagement.Business
             response.AcademicLevelId = academicLevelId;
             response.SubjectId = subjectId;
 
-            var subjectTeachers = uow.SubjectTeachers.GetAll().Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId).ToList();
+            var subjectTeachers = uow.SubjectTeachers.GetAll().Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId && t.SubjectId==subjectId && t.IsActive==true).ToList();
             subjectTeachers.ForEach(t =>
             {
                 response.AssignedTeachers.Add(new DropDownViewModal() { Id = t.TeacherId, Name = t.Teacher.FullName });
@@ -174,35 +174,45 @@ namespace SchoolManagement.Business
 
             try
             {
-                foreach (var teacher in vm.AssignedTeachers)
+                var savedTeachers = uow.SubjectTeachers.GetAll()
+                        .Where(t => t.AcademicYearId == vm.AcademicYearId &&
+                        t.AcademicLevelId == vm.AcademicLevelId &&
+                        t.SubjectId == vm.SubjectId && t.IsActive == true).ToList();
+
+                var deletedTeachers = (from dt in savedTeachers where !vm.AssignedTeachers.Any(t => t.Id == dt.TeacherId) select dt).ToList();
+                var newslyAddedUsers = (from nt in vm.AssignedTeachers where !savedTeachers.Any(t => t.TeacherId == nt.Id) select nt).ToList();
+                var user = uow.Users.GetAll().FirstOrDefault(t => t.Username == userName);
+
+                foreach (var teacher in newslyAddedUsers)
                 {
-                    var subjectTeacher = uow.SubjectTeachers.GetAll().FirstOrDefault(t => t.AcademicYearId == vm.AcademicYearId &&
-                    t.AcademicLevelId == vm.AcademicLevelId &&
-                    t.SubjectId == vm.SubjectId && t.TeacherId == teacher.Id && t.IsActive == true);
-
-                    if (subjectTeacher == null)
+                    var subjectTeacher = new Model.SubjectTeacher()
                     {
-                        var user = uow.Users.GetAll().FirstOrDefault(t => t.Username == userName);
-                        subjectTeacher = new Model.SubjectTeacher()
-                        {
-                            AcademicLevelId = vm.AcademicLevelId,
-                            AcademicYearId = vm.AcademicYearId,
-                            CreatedById = user.Id,
-                            CreatedOn = DateTime.UtcNow,
-                            IsActive = true,
-                            StartDate = DateTime.UtcNow,
-                            SubjectId = vm.SubjectId,
-                            TeacherId = teacher.Id,
-                            UpdatedById = user.Id,
-                            UpdatedOn = DateTime.UtcNow
-                        };
+                        AcademicLevelId = vm.AcademicLevelId,
+                        AcademicYearId = vm.AcademicYearId,
+                        CreatedById = user.Id,
+                        CreatedOn = DateTime.UtcNow,
+                        IsActive = true,
+                        StartDate = DateTime.UtcNow,
+                        SubjectId = vm.SubjectId,
+                        TeacherId = teacher.Id,
+                        UpdatedById = user.Id,
+                        UpdatedOn = DateTime.UtcNow
+                    };
 
-                        uow.SubjectTeachers.Add(subjectTeacher);
-
-                        await uow.CommitAsync();
-                    }
+                    uow.SubjectTeachers.Add(subjectTeacher);
                 }
 
+                foreach (var deletedTeacher in deletedTeachers)
+                {
+                    deletedTeacher.IsActive = false;
+                    deletedTeacher.EndDate = DateTime.UtcNow;
+                    deletedTeacher.UpdatedOn = DateTime.UtcNow;
+                    deletedTeacher.UpdatedById = user.Id;
+
+                    uow.SubjectTeachers.Update(deletedTeacher);
+                }
+
+                await uow.CommitAsync();
                 response.IsSuccess = true;
                 response.Message = "Subject Teachers details for selected academic level has been saved successfully.";
             }
@@ -216,11 +226,17 @@ namespace SchoolManagement.Business
 
         }
 
-        public List<DropDownViewModal> GetAllTeachers()
+        public List<DropDownViewModal> GetAllAvailableTeachers(long academicYearId, long academicLevelId, long subjectId)
         {
             var response = new List<DropDownViewModal>();
-            
-            var teachers = uow.UserRoles.GetAll().Where(t => t.Role.Name == "Teacher").Select(t => t.User).ToList();
+
+            var assignedTeachers = uow.SubjectTeachers.
+                GetAll().Where(t => t.AcademicYearId == academicYearId && 
+                t.AcademicLevelId == academicLevelId && 
+                t.SubjectId == subjectId && 
+                t.IsActive == true).Select(t=>t.TeacherId).ToList();
+
+            var teachers = uow.UserRoles.GetAll().Where(t => t.Role.Name == "Teacher").Select(t => t.User).Where(t=> !assignedTeachers.Any(x => x == t.Id)).ToList();
 
 
             teachers.ForEach(t =>

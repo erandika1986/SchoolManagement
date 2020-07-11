@@ -5,6 +5,7 @@ import { DropDownModel } from '../../../models/common/drop-down.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { TeacherSubjectService } from '../../../services/admin/teacher-subject.service';
+import { AddEditSubjectTeacherDialogComponent } from '../dialogs/add-edit-subject-teacher-dialog/add-edit-subject-teacher-dialog.component';
 
 @Component({
   selector: 'app-subject-teacher',
@@ -61,11 +62,29 @@ export class SubjectTeacherComponent implements OnInit {
 
   edit(vm: AcademicLevelSubjectTeacherAllocationModel) {
 
+    const initialState = {
+
+      teachSubjectAllocation: vm,
+      academicYears: this.academicYears,
+      selectedAcademicYearId: this.selectedAcademicYearId,
+      academicLevels: this.academicLevels,
+      selectedAcademicLevelId: this.selectedAcademicLevelId,
+    };
+
+    this.bsModalRef = this.bsModalService.show(AddEditSubjectTeacherDialogComponent, {
+      class: 'modal-lg modal-dialog-centered',
+      backdrop: 'static',
+      keyboard: false, initialState
+    });
   }
 
   delete(vm: AcademicLevelSubjectTeacherAllocationModel) {
 
   }
+  doSorting(value: string) {
+
+  }
+
 
   getSubjectTeacherAllocations() {
     this.teacherSubjectService.getAcademicYearSubjectTeacherAllocation(this.selectedAcademicYearId, this.selectedAcademicLevelId)

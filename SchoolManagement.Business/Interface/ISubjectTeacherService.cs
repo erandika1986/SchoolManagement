@@ -16,6 +16,6 @@ namespace SchoolManagement.Business.Interface
 
         Task<ResponseViewModel> DeleteSubjectTeachersAllocationForSelectedLevel(long academicYearId, long academicLevelId, long subjectId, string userName);
         Task<ResponseViewModel> DeleteSubjectTeacherAllocationForSelectedLevel(long academicYearId, long academicLevelId, long subjectId, long teacherId, string userName);
-        List<DropDownViewModal> GetAllTeachers();
+        List<DropDownViewModal> GetAllAvailableTeachers(long academicYearId, long academicLevelId, long subjectId);
     }
 }

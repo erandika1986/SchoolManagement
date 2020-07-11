@@ -29,7 +29,7 @@
                     <div class="col-md-8">
                         <select id="academicYearId" class="form-control" name="academicYearId" [disabled]="type=='edit'"
                             [(ngModel)]="selectedAcademicLevelId" (change)="academicLevelOnChange()">
-                            <option *ngFor="let item of academicLevels" [value]="item.id">{{item.name}}</option>
+                            <option *ngFor="let item of academicLevels" [ngValue]="item.id">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="col-md-8">
                         <select id="academicYearId" class="form-control" name="academicYearId" [disabled]="type=='edit'"
                             [(ngModel)]="selectedClassNameId" (change)="classOnChange()">
-                            <option *ngFor="let item of classes" [value]="item.id">{{item.name}}</option>
+                            <option *ngFor="let item of classes" [ngValue]="item.id">{{item.name}}</option>
                         </select>
                     </div>
                 </div>
@@ -56,9 +56,14 @@
                     </div>
                     <div class="col-md-8">
                         <select id="classTeacher" class="form-control" name="classTeacher"
-                            [(ngModel)]="selectedClassTecherId" (change)="classOnChange()">
-                            <option *ngFor="let item of availableClassTeachers" [value]="item.id">{{item.name}}</option>
+                            [(ngModel)]="classSubjecTeacher.selectedClassTeacherId" (change)="classTeacherOnChanged()"
+                            [ngClass]="{'is-invalid': !classSubjecTeacher.isvalidClassTeacher }">
+                            <option *ngFor="let item of availableClassTeachers" [ngValue]="item.id">{{item.name}}
+                            </option>
                         </select>
+                        <div class="invalid-feedback" *ngIf="!classSubjecTeacher.isvalidClassTeacher">
+                            {{classSubjecTeacher.validationMsg}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,16 +108,21 @@
                             <tr *ngFor="let item of classSubjecTeacher?.classSubjectTeachers">
 
                                 <td>
-                                    <select class="form-control" [(ngModel)]="item.selectedSubjectId">
-                                        <option *ngFor="let item of academicLevelSubjects" [value]="item.id">
+                                    <select class="form-control" [(ngModel)]="item.selectedSubjectId" [disabled]="true">
+                                        <option *ngFor="let item of academicLevelSubjects" [ngValue]="item.id">
                                             {{item.name}}</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select class="form-control" [(ngModel)]="item.selectedTeacherId">
-                                        <option *ngFor="let item of item.classSubjectTeachers" [value]="item.id">
+                                    <select class="form-control" [ngClass]="{'is-invalid': !item.isvalid }"
+                                        [(ngModel)]="item.selectedTeacherId"
+                                        (change)="subjectTeacherOnChange(item.selectedSubjectId,item.selectedTeacherId,item)">
+                                        <option *ngFor="let item of item.subjectTeachers" [ngValue]="item.id">
                                             {{item.name}}</option>
                                     </select>
+                                    <div class="invalid-feedback" *ngIf="!item.isvalid">
+                                        {{item.validationMsg}}
+                                    </div>
                                 </td>
 
                             </tr>
@@ -125,5 +135,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-success" (click)="bsModalRef.hide()">Save</button>
+    <button type="button" class="btn btn-success" (click)="save()">Save</button>
 </div>

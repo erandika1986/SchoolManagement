@@ -31,7 +31,7 @@ namespace SchoolManagement.WebApi.Controllers
         }
 
         [HttpGet("GetUserMasterData")]
-        public IActionResult Get()
+        public IActionResult GetUserMasterData()
         {
             var response = userService.GetUserMasterData();
 

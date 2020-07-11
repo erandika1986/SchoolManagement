@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { FormValidatorService } from '../../../services/common/form-validator.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-dashboard',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -31,23 +31,23 @@ export class LoginComponent implements OnInit {
   onLoggedin() {
     this.ngxSpinnerService.show();
     if (!this.loginForm.valid) {
-        this.formValidatorService.validateAllFormFields(this.loginForm);
+      this.formValidatorService.validateAllFormFields(this.loginForm);
     } else {
-        this.authService.login(this.loginForm.value)
-            .subscribe(response => {
-                this.ngxSpinnerService.hide();
-                if (response && response.token) {
-                  console.log(response);
-                  localStorage.setItem('currentUser', JSON.stringify(response));
-                  localStorage.setItem('isLoggedin', 'true');
-                  this.router.navigate(['/home']);
-                } else {
-                  this.toastrService.error('Please check your username and password are correct', 'Login Failed');
-                }
-            }, error => {
-                this.ngxSpinnerService.hide();
-                this.toastrService.error('Internal server error', 'Login Failed');
-            });
+      this.authService.login(this.loginForm.value)
+        .subscribe(response => {
+          this.ngxSpinnerService.hide();
+          if (response && response.token) {
+            console.log(response);
+            localStorage.setItem('currentUser', JSON.stringify(response));
+            localStorage.setItem('isLoggedin', 'true');
+            this.router.navigate(['/home']);
+          } else {
+            this.toastrService.error('Please check your username and password are correct', 'Login Failed');
+          }
+        }, error => {
+          this.ngxSpinnerService.hide();
+          this.toastrService.error('Internal server error', 'Login Failed');
+        });
     }
   }
 

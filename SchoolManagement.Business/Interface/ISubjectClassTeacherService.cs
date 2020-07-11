@@ -18,5 +18,7 @@ namespace SchoolManagement.Business.Interface
         List<DropDownViewModal> GetClassUnAssignedTeachers();
         List<DropDownViewModal> GetSubjectTeachers(long academicYearId, long academicLevelId, long subjectId);
         List<DropDownViewModal> GetAcademicLevelSubjects(int selectedAcademicLevelId);
+        ResponseViewModel ValidateClassTeacher(long academicYearId, long academicLevelId, long classNameId, long teacherId);
+        ResponseViewModel ValidateAssignedSubjectTeacher(long academicYearId, long academicLevelId, long classNameId, long subjectId, long teacherId);
     }
 }

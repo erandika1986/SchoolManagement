@@ -57,13 +57,13 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUserList();
     this.getUserMasterData();
   }
 
   getUserMasterData() {
     this.userService.getUserMasterData().subscribe(response => {
       this.roles = response.roles;
+      this.getUserList();
     }, err => {
       this.toastrService.error('Internal Server Error!');
     });

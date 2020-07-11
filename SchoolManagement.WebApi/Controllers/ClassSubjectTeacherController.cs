@@ -86,6 +86,26 @@ namespace SchoolManagement.WebApi.Controllers
             return Ok(response);
         }
 
+        [HttpGet]
+        [Route("validateClassTeacher")]
+        [ProducesResponseType(typeof(ResponseViewModel), (int)HttpStatusCode.OK)]
+        public IActionResult ValidateClassTeacher(long academicYearId, long academicLevelId, long classNameId, long teacherId)
+        {
+            var response = subjectClassTeacherService.ValidateClassTeacher(academicYearId, academicLevelId,  classNameId, teacherId);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("validateAssignedSubjectTeacher")]
+        [ProducesResponseType(typeof(ResponseViewModel), (int)HttpStatusCode.OK)]
+        public IActionResult ValidateAssignedSubjectTeacher(long academicYearId, long academicLevelId, long classNameId, long subjectId, long teacherId)
+        {
+            var response = subjectClassTeacherService.ValidateAssignedSubjectTeacher(academicYearId, academicLevelId, classNameId, subjectId, teacherId);
+
+            return Ok(response);
+        }
+
         [HttpPost]
         [Route("saveClassSubjectTeacherDetails")]
         [ProducesResponseType(typeof(ResponseViewModel), (int)HttpStatusCode.OK)]

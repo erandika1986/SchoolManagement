@@ -59,6 +59,7 @@
     "ngx-toastr": "^11.2.1",
     "rxjs": "^6.5.3",
     "simple-line-icons": "^2.4.1",
+    "sweetalert2": "9.15.3",
     "ts-helpers": "^1.1.2",
     "tslib": "^1.10.0",
     "web-animations-js": "^2.3.2",

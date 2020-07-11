@@ -19,8 +19,13 @@ export class TeacherSubjectService {
     return this.httpClient.get<ClassSubjectTeacherMasterDataModel>(environment.apiUrl + 'ClassSubjectTeacher/getClassSubjectTeacherMasterData');
   }
 
-  getAllTeachers(academicYearId: number, academicLevelId: number): Observable<DropDownModel[]> {
-    return this.httpClient.get<DropDownModel[]>(environment.apiUrl + 'SubjectTeacher/getAllTeachers');
+  getAllAvailableTeachers(academicYearId: number, academicLevelId: number, subjectId: number): Observable<DropDownModel[]> {
+    return this.httpClient.get<DropDownModel[]>(environment.apiUrl + 'SubjectTeacher/getAllAvailableTeachers', {
+      params: new HttpParams()
+        .set('academicYearId', academicYearId.toString())
+        .set('academicLevelId', academicLevelId.toString())
+        .set('subjectId', subjectId.toString())
+    });
   }
 
   getAcademicYearSubjectTeacherAllocation(academicYearId: number, academicLevelId: number): Observable<AcademicLevelSubjectTeacherAllocationModel[]> {

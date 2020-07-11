@@ -21,20 +21,20 @@ namespace SchoolManagement.ViewModel.Admin.ClassSubjectTeacher
     {
         public ClassSubjectTeacherViewModel()
         {
-            ClassTeachers = new List<ClassTeacherViewModel>();
+            //ClassTeachers = new List<ClassTeacherViewModel>();
             ClassSubjectTeachers = new List<SubjectTeacherViewModel>();
         }
 
         public long AcademicYearId { get; set; }
         public long AcademicLevelId { get; set; }
         public long ClassNameId { get; set; }
-        public List<ClassTeacherViewModel> ClassTeachers { get; set; }
+        public long SelectedClassTeacherId { get; set; }
+        public bool IsvalidClassTeacher { get; set; }
+        public string ValidationMsg { get; set; }
+
+        //public List<ClassTeacherViewModel> ClassTeachers { get; set; }
         public List<SubjectTeacherViewModel> ClassSubjectTeachers { get; set; }
 
-        public string CreatedBy { get; set; }
-        public string CreatedOn { get; set; }
-        public string UpdatedBy { get; set; }
-        public string UpdatedOn { get; set; }
     }
 
     public class ClassTeacherViewModel
@@ -55,5 +55,7 @@ namespace SchoolManagement.ViewModel.Admin.ClassSubjectTeacher
         public List<DropDownViewModal> SubjectTeachers { get; set; }
         public long SelectedSubjectId { get; set; }
         public long SelectedTeacherId { get; set; }
+        public bool Isvalid { get; set; }
+        public string ValidationMsg { get; set; }
     }
 }

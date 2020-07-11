@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,54 +24,62 @@ using SchoolManagement.Data;
 using SchoolManagement.Master;
 using SchoolManagement.Util;
 using SchoolManagement.WebApi.Helpers;
+using SchoolManagement.WebApi.Infrastructure.AutofacModules;
 
 namespace SchoolManagement.WebApi
 {
     public class Startup
     {
 
-        //public Startup(IConfiguration configuration)
-        //{
-        //    Configuration = configuration;
-        //}
-        public Startup(IWebHostEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            this.Configuration = builder.Build();
+            Configuration = configuration;
         }
+        //public Startup(IWebHostEnvironment env)
+        //{
+        //    var builder = new ConfigurationBuilder()
+        //        .SetBasePath(env.ContentRootPath)
+        //        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+        //        .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+        //        .AddEnvironmentVariables();
+        //    this.Configuration = builder.Build();
+        //}
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddCustomDbContext(Configuration);
             services.EnableJWTAuthentication(Configuration);
             services.AddSwagger();
             services.EnableCors(Configuration);
             services.AddControllers();
+
+            var container = new ContainerBuilder();
+            container.Populate(services);
+
+            container.RegisterModule(new ApplicationModule(Configuration["SMMasterDbConnectionString"]));
+
+            return new AutofacServiceProvider(container.Build());
         }
 
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterType<AuthSQLServerTenantProvider>().As<ITenantProvider>().InstancePerDependency();
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
-            builder.RegisterType<SMUow>().As<ISMUow>().InstancePerDependency();
-            builder.RegisterType<UserService>().As<IUserService>().InstancePerDependency();
-            builder.RegisterType<AuthService>().As<IAuthService>().InstancePerDependency(); 
-            builder.RegisterType<AcademicLevelService>().As<IAcademicLevelService>().InstancePerDependency();
-            builder.RegisterType<ClassNameService>().As<IClassNameService>().InstancePerDependency();
-            builder.RegisterType<SubjectService>().As<ISubjectService>().InstancePerDependency();
-            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerDependency();
-            builder.RegisterType<AssessmentTypeService>().As<IAssessmentTypeService>().InstancePerDependency();
-            builder.RegisterType<AcademicYearService>().As<IAcademicYearService>().InstancePerDependency();
-            builder.RegisterType<SubjectClassTeacherService>().As<ISubjectClassTeacherService>().InstancePerDependency();
-            builder.RegisterType<SubjectTeacherService>().As<ISubjectTeacherService>().InstancePerDependency(); 
-        }
+        //public void ConfigureContainer(ContainerBuilder builder)
+        //{
+        //    builder.RegisterType<AuthSQLServerTenantProvider>().As<ITenantProvider>().InstancePerDependency();
+        //    builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+        //    builder.RegisterType<SMUow>().As<ISMUow>().InstancePerDependency();
+        //    builder.RegisterType<UserService>().As<IUserService>().InstancePerDependency();
+        //    builder.RegisterType<AuthService>().As<IAuthService>().InstancePerDependency(); 
+        //    builder.RegisterType<AcademicLevelService>().As<IAcademicLevelService>().InstancePerDependency();
+        //    builder.RegisterType<ClassNameService>().As<IClassNameService>().InstancePerDependency();
+        //    builder.RegisterType<SubjectService>().As<ISubjectService>().InstancePerDependency();
+        //    builder.RegisterType<StudentService>().As<IStudentService>().InstancePerDependency();
+        //    builder.RegisterType<AssessmentTypeService>().As<IAssessmentTypeService>().InstancePerDependency();
+        //    builder.RegisterType<AcademicYearService>().As<IAcademicYearService>().InstancePerDependency();
+        //    builder.RegisterType<SubjectClassTeacherService>().As<ISubjectClassTeacherService>().InstancePerDependency();
+        //    builder.RegisterType<SubjectTeacherService>().As<ISubjectTeacherService>().InstancePerDependency(); 
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -246,7 +255,7 @@ namespace SchoolManagement.WebApi
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
+                options.AddPolicy(name:"CorsPolicy",
                     builder => builder.WithOrigins(allowOrigins)
                     .AllowAnyMethod()
                     .AllowAnyHeader()

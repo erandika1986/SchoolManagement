@@ -33,10 +33,11 @@ export class AddEditUserPopUpComponent implements OnInit {
     public modalRef: BsModalRef) { }
 
   ngOnInit() {
+    this.setForm();
     this.getUserMasterData();
     this.recordId = this.userId;
-    this.setForm();
-    this.loadData();
+
+
   }
 
   setForm() {
@@ -57,6 +58,7 @@ export class AddEditUserPopUpComponent implements OnInit {
   getUserMasterData() {
     this.userService.getUserMasterData().subscribe(response => {
       this.roles = response.roles;
+      this.loadData();
     }, err => {
       this.toastrService.error('Internal Server Error!');
     });

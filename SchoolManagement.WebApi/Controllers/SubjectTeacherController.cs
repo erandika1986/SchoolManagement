@@ -47,11 +47,11 @@ namespace SchoolManagement.WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("getAllTeachers")]
+        [Route("getAllAvailableTeachers")]
         [ProducesResponseType(typeof(List<DropDownViewModal>), (int)HttpStatusCode.OK)]
-        public IActionResult GetAllTeachers()
+        public IActionResult GetAllAvailableTeachers(long academicYearId, long academicLevelId, long subjectId)
         {
-            var response = subjectTeacherService.GetAllTeachers();
+            var response = subjectTeacherService.GetAllAvailableTeachers(academicYearId,academicLevelId,subjectId);
 
             return Ok(response);
         }
