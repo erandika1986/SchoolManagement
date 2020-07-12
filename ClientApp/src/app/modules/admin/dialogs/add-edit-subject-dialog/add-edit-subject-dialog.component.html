@@ -73,8 +73,8 @@
                             </div>
                             <div class="col-md-8">
                                 <select id="subjectCategory" class="form-control" formControlName="subjectCategory">
-                                    <option value="1">Junior School Subject</option>
-                                    <option value="2">Senior School Subject</option>
+                                    <option *ngFor="let item of schoolTypes" [ngValue]="item.id">
+                                        {{item.name}}</option>
                                 </select>
                             </div>
                         </div>

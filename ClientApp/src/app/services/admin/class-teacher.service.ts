@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ClassSubjectTeacherPaginatedItemsModel } from '../../models/master/class-subject-teacher/class.subject.teacher.paginated.item.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ClassSubjectTeacherModel } from '../../models/master/class-subject-teacher/class-subject-teacher.model';
 import { ClassSubjectTeacherMasterDataModel } from '../../models/master/class-subject-teacher/class.subject.teacher.master.data.model';
@@ -13,7 +13,11 @@ import { DropDownModel } from '../../models/common/drop-down.model';
 })
 export class ClassTeacherService {
 
-  constructor(private httpClient: HttpClient) { }
+  onNewRecordAdded: Subject<any>;
+
+  constructor(private httpClient: HttpClient) {
+    this.onNewRecordAdded = new Subject();
+  }
 
   getAllSubjectClassTeachers(currentPage: number, pageSize: number, sortBy: string, academicYearId: number, academicLevelId: number): Observable<ClassSubjectTeacherPaginatedItemsModel> {
     return this.httpClient.get<ClassSubjectTeacherPaginatedItemsModel>(environment.apiUrl + 'ClassSubjectTeacher/getAllSubjectClassTeachers', {

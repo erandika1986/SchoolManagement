@@ -219,7 +219,7 @@ namespace SchoolManagement.Business
             catch (Exception ex)
             {
                 response.IsSuccess = false;
-                response.Message = "An Error has been occured while saving the subject teacher details.";
+                response.Message = ex.ToString();
             }
 
             return response;
@@ -236,7 +236,7 @@ namespace SchoolManagement.Business
                 t.SubjectId == subjectId && 
                 t.IsActive == true).Select(t=>t.TeacherId).ToList();
 
-            var teachers = uow.UserRoles.GetAll().Where(t => t.Role.Name == "Teacher").Select(t => t.User).Where(t=> !assignedTeachers.Any(x => x == t.Id)).ToList();
+            var teachers = uow.UserRoles.GetAll().Where(t => t.Role.Name == "Teacher").Select(t => t.User).Where(t=> !assignedTeachers.Any(x => x == t.Id)).OrderBy(t=>t.FullName).ToList();
 
 
             teachers.ForEach(t =>

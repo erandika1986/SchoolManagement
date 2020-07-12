@@ -257,7 +257,7 @@ namespace SchoolManagement.Business
             catch (Exception ex)
             {
                 response.IsSuccess = false;
-                response.Message = "Error has been occured. Please try again.";
+                response.Message = ex.ToString() ;
             }
 
             return response;

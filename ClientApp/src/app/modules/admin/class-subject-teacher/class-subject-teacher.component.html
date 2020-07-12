@@ -12,7 +12,8 @@
                             <div class="col-md-8">
                                 <select id="academicYearId" class="form-control" name="academicYearId"
                                     [(ngModel)]="selectedAcademicYearId" (change)="academicYearOnChange()">
-                                    <option *ngFor="let item of academicYears" [value]="item.id">{{item.name}}</option>
+                                    <option *ngFor="let item of academicYears" [ngValue]="item.id">{{item.name}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -25,7 +26,7 @@
                             <div class="col-md-8">
                                 <select id="academicLevelId" class="form-control" name="academicLevelId"
                                     [(ngModel)]="selectedAcademicLevelId" (change)="academicLevelOnChange()">
-                                    <option *ngFor="let item of academicLevels" [value]="item.id">{{item.name}}
+                                    <option *ngFor="let item of academicLevels" [ngValue]="item.id">{{item.name}}
                                     </option>
                                 </select>
                             </div>

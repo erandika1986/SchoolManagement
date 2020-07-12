@@ -114,6 +114,8 @@ export class AddEditSubjectTeacherDialogComponent implements OnInit {
             response.message,
             'success'
           )
+
+          this.teacherSubjectService.onNewRecordAdded.next(true);
         }
         else {
           Swal.fire({

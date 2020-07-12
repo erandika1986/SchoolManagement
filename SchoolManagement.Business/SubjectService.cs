@@ -280,7 +280,7 @@ namespace SchoolManagement.Business
             }
             catch(Exception ex)
             {
-                response.Message = "Error occured..Please try again..!";
+                response.Message = ex.ToString();
                 response.IsSuccess = false;
             }
 

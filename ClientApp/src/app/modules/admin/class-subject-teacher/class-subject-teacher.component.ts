@@ -46,6 +46,10 @@ export class ClassSubjectTeacherComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.classSubjectTecherService.onNewRecordAdded.subscribe(event => {
+      this.getClassTeacherSubjectTeacherAllocations();
+    });
+
     this.ngxSpinnerService.show();
     this.getMasterDate();
   }

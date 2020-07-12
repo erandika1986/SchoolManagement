@@ -7,6 +7,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { EventService } from '../../../../services/common/event.service';
 import { NgOption } from '@ng-select/ng-select';
 import { BasicSubjectModel } from '../../../../models/master/common/basic-subject.model';
+import { DropDownModel } from '../../../../models/common/drop-down.model';
 
 @Component({
   selector: 'app-add-edit-subject-dialog',
@@ -20,6 +21,7 @@ export class AddEditSubjectDialogComponent implements OnInit {
   recordId = 0;
   subjectId = 0;
   parentSubjects: BasicSubjectModel[];
+  schoolTypes: DropDownModel[] = [];
   booleanSelection = [{ "value": true, "text": "Yes" }, { "value": false, "text": "No" }]
 
 
@@ -32,7 +34,18 @@ export class AddEditSubjectDialogComponent implements OnInit {
     private bsModalService: BsModalService,
     private eventService: EventService,
     public modalRef: BsModalRef
-  ) { }
+  ) {
+
+    let ddl1: DropDownModel = new DropDownModel();
+    ddl1.id = 1;
+    ddl1.name = "Junior School Subject";
+
+    let ddl2: DropDownModel = new DropDownModel();
+    ddl2.id = 2;
+    ddl2.name = "Senior School Subject";
+    this.schoolTypes.push(ddl1);
+    this.schoolTypes.push(ddl2);
+  }
 
   ngOnInit(): void {
 

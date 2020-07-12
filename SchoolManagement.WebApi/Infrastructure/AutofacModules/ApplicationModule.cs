@@ -31,51 +31,51 @@ namespace SchoolManagement.WebApi.Infrastructure.AutofacModules
 
             builder.RegisterType<HttpContextAccessor>()
                 .As<IHttpContextAccessor>()
-                .SingleInstance();
+                .InstancePerDependency();
 
             builder.RegisterType<SMUow>()
                 .As<ISMUow>()
-                .SingleInstance();
+                .InstancePerDependency();
 
             builder.RegisterType<UserService>()
                 .As<IUserService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<AuthService>()
                 .As<IAuthService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<AcademicLevelService>()
                 .As<IAcademicLevelService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<ClassNameService>()
                 .As<IClassNameService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<SubjectService>()
                 .As<ISubjectService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<StudentService>()
                 .As<IStudentService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<AssessmentTypeService>()
                 .As<IAssessmentTypeService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<AcademicYearService>()
                .As<IAcademicYearService>()
-               .InstancePerLifetimeScope();
+               .InstancePerDependency();
 
             builder.RegisterType<SubjectClassTeacherService>()
                 .As<ISubjectClassTeacherService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder.RegisterType<SubjectTeacherService>()
                 .As<ISubjectTeacherService>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
 
         }

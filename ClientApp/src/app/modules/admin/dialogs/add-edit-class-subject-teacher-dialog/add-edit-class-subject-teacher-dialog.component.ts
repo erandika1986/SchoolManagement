@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ThemeService } from 'ng2-charts';
 import { ClassSubjectTeacherModel } from '../../../../models/master/class-subject-teacher/class-subject-teacher.model';
 import { SubjectTeacherModel } from '../../../../models/master/class-subject-teacher/subject-teacher.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-edit-class-subject-teacher-dialog',
@@ -159,9 +160,31 @@ export class AddEditClassSubjectTeacherDialogComponent implements OnInit, AfterV
 
     this.classTeacherService.saveClassSubjectTeacherDetails(this.classSubjecTeacher)
       .subscribe(response => {
+
         this.ngxSpinnerService.hide();
+        if (response.isSuccess) {
+          Swal.fire(
+            'Success!',
+            response.message,
+            'success'
+          )
+
+          this.classTeacherService.onNewRecordAdded.next(true);
+        }
+        else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: response.message
+          })
+        }
       }, error => {
         this.ngxSpinnerService.hide();
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!. Please try again.'
+        })
       });
 
   }

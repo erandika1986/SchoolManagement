@@ -249,6 +249,7 @@ namespace SchoolManagement.Business
                         };
 
                         uow.ClassSubjectTeachers.Add(matchingSubjectAllocation);
+                        await uow.CommitAsync();
                     }
                     else if(matchingSubjectAllocation.SubjectTeacherId!=currentSubjectUsers.SelectedTeacherId)
                     {
@@ -275,11 +276,12 @@ namespace SchoolManagement.Business
                         };
 
                         uow.ClassSubjectTeachers.Add(matchingSubjectAllocation);
+                        await uow.CommitAsync();
                     }
                 }
                 
 
-                await uow.CommitAsync();
+                //await uow.CommitAsync();
 
                 response.IsSuccess = true;
                 response.Message = "Class Teachers and Subject Teachers has been assigned to the selected class successfully.";
@@ -288,7 +290,7 @@ namespace SchoolManagement.Business
             catch (Exception ex)
             {
                 response.IsSuccess = false;
-                response.Message = "Error has been occured while assigning subject teachers and class teachers.";
+                response.Message = ex.ToString();
             }
 
             return response;
@@ -367,7 +369,7 @@ namespace SchoolManagement.Business
 
             subjectTeachers.ForEach(t =>
             {
-                response.Add(new DropDownViewModal() { Id = t.TeacherId, Name = t.Teacher.FullName });
+                response.Add(new DropDownViewModal() { Id = t.Id, Name = t.Teacher.FullName });
             });
 
             return response;

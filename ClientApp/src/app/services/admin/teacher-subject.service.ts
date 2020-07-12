@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AcademicLevelSubjectTeacherAllocationModel } from '../../models/master/subject-teacher/academic.level.subjects.teacher.allocation.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AcademicLevelSubjectTeacherAllocationDetailModel } from '../../models/master/subject-teacher/academic.level.subject.teacher.allocation.detail.model';
 import { ResponseModel } from '../../models/common/response.model';
@@ -13,7 +13,11 @@ import { ClassSubjectTeacherMasterDataModel } from '../../models/master/class-su
 })
 export class TeacherSubjectService {
 
-  constructor(private httpClient: HttpClient) { }
+  onNewRecordAdded: Subject<any>;
+
+  constructor(private httpClient: HttpClient) {
+    this.onNewRecordAdded = new Subject();
+  }
 
   getClassSubjectTeacherMasterData(): Observable<ClassSubjectTeacherMasterDataModel> {
     return this.httpClient.get<ClassSubjectTeacherMasterDataModel>(environment.apiUrl + 'ClassSubjectTeacher/getClassSubjectTeacherMasterData');
