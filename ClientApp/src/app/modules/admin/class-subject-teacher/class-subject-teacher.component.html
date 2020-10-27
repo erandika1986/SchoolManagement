@@ -42,7 +42,7 @@
                         <tr>
                             <th style="min-width:200px;">
                                 <button type="button" class="btn btn-success btn-sm"
-                                    (click)="edit(selectedAcademicYearId,selectedAcademicLevelId,0)">
+                                    (click)="edit(selectedAcademicYearId,selectedAcademicLevelId,0,1,1)">
                                     <span class="fa fa-plus"></span>
                                 </button>
                             </th>
@@ -59,7 +59,7 @@
                                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                     <div class="btn-group mr-2" role="group" aria-label="First group">
                                         <button type="button" class="btn btn-warning btn-sm ml-1"
-                                            (click)="edit(item.academicYearId,item.academicLevelId,item.classNameId)">
+                                            (click)="edit(item.academicYearId,item.academicLevelId,item.classNameId,item.classCategory,item.languageStream)">
                                             <span class="fa fa-pencil"></span>
                                         </button>
                                     </div>

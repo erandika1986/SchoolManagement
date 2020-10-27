@@ -60,12 +60,13 @@ export class ClassTeacherService {
     });
   }
 
-  getSelectedSubjectClassTeacherDetails(academicYearId: number, academicLevelId: number, classNameId: number): Observable<ClassSubjectTeacherModel> {
+  getSelectedSubjectClassTeacherDetails(academicYearId: number, academicLevelId: number, classNameId: number, classCategory: number): Observable<ClassSubjectTeacherModel> {
     return this.httpClient.get<ClassSubjectTeacherModel>(environment.apiUrl + 'ClassSubjectTeacher/getSelectedSubjectClassTeacherDetails', {
       params: new HttpParams()
         .set('academicYearId', academicYearId.toString())
         .set('academicLevelId', academicLevelId.toString())
         .set('classNameId', classNameId.toString())
+        .set('classCategory', classCategory.toString())
     });
   }
 

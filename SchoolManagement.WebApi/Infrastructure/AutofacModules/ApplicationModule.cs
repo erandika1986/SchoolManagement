@@ -75,7 +75,11 @@ namespace SchoolManagement.WebApi.Infrastructure.AutofacModules
 
             builder.RegisterType<SubjectTeacherService>()
                 .As<ISubjectTeacherService>()
-                .InstancePerDependency();
+                .InstancePerDependency(); 
+
+            builder.RegisterType<TimeTableService>()
+                .As<ITimeTableService>()
+                .InstancePerDependency(); 
 
 
         }

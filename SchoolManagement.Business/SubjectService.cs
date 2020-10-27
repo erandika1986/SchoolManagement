@@ -10,6 +10,7 @@ using System.Linq;
 using SchoolManagement.ViewModel.Common;
 using SchoolManagement.Model;
 using Microsoft.EntityFrameworkCore;
+using SchoolManagement.Util;
 
 namespace SchoolManagement.Business
 {
@@ -97,10 +98,15 @@ namespace SchoolManagement.Business
                 IsBasketSubject=sb.IsBuscketSubject,
                 IsParentBasketSubject=sb.IsParentBasketSubject,
                 SubjectCategory=sb.SubjectCategory,
+                SubjectStream=sb.SubjectStream,
                 IsActive = sb.IsActive,
                 ParentSubjectId =sb.ParentBasketSubjectId.HasValue?sb.ParentBasketSubjectId.Value:0
             };
 
+            foreach (ALSubjectStream bn in (ALSubjectStream[])Enum.GetValues(typeof(ALSubjectStream)))
+            {
+                vm.SubjectStreams.Add(new DropDownViewModal() { Id = (int)bn, Name = EnumHelper.GetEnumDescription(bn) });
+            }
 
             var academicLevels = uow.AcademicLevels.GetAll().Where(t => t.IsActive == true).OrderBy(t => t.Id).ToList();
             var subjectAcademicLevel = sb.SubjectAcademicLevels.ToList();
@@ -224,6 +230,7 @@ namespace SchoolManagement.Business
                         IsBuscketSubject=vm.IsBasketSubject,
                         IsParentBasketSubject=vm.IsParentBasketSubject,
                         SubjectCategory=vm.SubjectCategory,
+                        SubjectStream=vm.SubjectStream,
                         IsActive = true,
                         Name = vm.Name,
                         SubjectCode = vm.SubjectCode,
@@ -316,6 +323,7 @@ namespace SchoolManagement.Business
                 subject.IsBuscketSubject = vm.IsBasketSubject;
                 subject.IsParentBasketSubject = vm.IsParentBasketSubject;
                 subject.SubjectCategory = vm.SubjectCategory;
+                subject.SubjectStream = vm.SubjectStream;
 
                 if (vm.ParentSubjectId > 0)
                 {

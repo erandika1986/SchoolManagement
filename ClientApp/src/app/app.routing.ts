@@ -29,6 +29,10 @@ export const routes: Routes = [
         loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
       },
       {
+        path: 'time-table',
+        loadChildren: () => import('./modules/timetable/timetable.module').then(m => m.TimetableModule)
+      },
+      {
         path: 'admin',
         loadChildren: () => import('./modules/admin/admin.module').then(m => m.AdminModule)
       }
@@ -59,7 +63,7 @@ export const routes: Routes = [
 // ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

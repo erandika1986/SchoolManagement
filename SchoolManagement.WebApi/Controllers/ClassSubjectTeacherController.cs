@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Business.Interface;
+using SchoolManagement.Model;
 using SchoolManagement.ViewModel;
 using SchoolManagement.ViewModel.Admin.ClassSubjectTeacher;
 using SchoolManagement.WebApi.Helpers;
@@ -39,9 +40,9 @@ namespace SchoolManagement.WebApi.Controllers
         [HttpGet]
         [Route("getSelectedSubjectClassTeacherDetails")]
         [ProducesResponseType(typeof(ClassSubjectTeacherViewModel), (int)HttpStatusCode.OK)]
-        public IActionResult GetSelectedSubjectClassTeacherDetails(int academicYearId, int academicLevelId, int classNameId)
+        public IActionResult GetSelectedSubjectClassTeacherDetails(int academicYearId, int academicLevelId, int classNameId, ClassCategory classCategory)
         {
-            var response = subjectClassTeacherService.GetSelectedSubjectClassTeacherDetails(academicYearId, academicLevelId, classNameId);
+            var response = subjectClassTeacherService.GetSelectedSubjectClassTeacherDetails(academicYearId, academicLevelId, classNameId, classCategory);
 
             return Ok(response);
         }

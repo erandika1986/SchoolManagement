@@ -75,11 +75,7 @@ namespace SchoolManagement.Model
         public virtual ICollection<ClassTeacher> CreatedClassTeachers { get; set; }
         public virtual ICollection<ClassTeacher> UpdatedClassTeachers { get; set; }
 
-        public virtual ICollection<ClassTimeTablePeriod> CreatedClassTimeTablePeriods { get; set; }
-        public virtual ICollection<ClassTimeTablePeriod> UpdatedClassTimeTablePeriods { get; set; }
 
-        public virtual ICollection<ClassTimeTablePeriodAssignTeacher> CreatedClassTimeTablePeriodAssignTeachers { get; set; }
-        public virtual ICollection<ClassTimeTablePeriodAssignTeacher> UpdatedClassTimeTablePeriodAssignTeachers { get; set; }
 
         public virtual ICollection<Day> CreatedDays { get; set; }
         public virtual ICollection<Day> UpdatedDays { get; set; }
@@ -108,6 +104,19 @@ namespace SchoolManagement.Model
         public virtual ICollection<SubjectTeacher> CreatedSubjectTeachers { get; set; }
         public virtual ICollection<SubjectTeacher> UpdatedSubjectTeachers { get; set; }
 
+
+        #endregion
+
+        #region Navigation Properties for TimeTable Entities
+
+        public virtual ICollection<TimeTable> CreatedTimeTables { get; set; }
+        public virtual ICollection<TimeTable> UpdatedTimeTables { get; set; }
+
+        public virtual ICollection<ClassTimeTablePeriod> CreatedClassTimeTablePeriods { get; set; }
+        public virtual ICollection<ClassTimeTablePeriod> UpdatedClassTimeTablePeriods { get; set; }
+
+        public virtual ICollection<ClassTimeTablePeriodAssignTeacher> CreatedClassTimeTablePeriodAssignTeachers { get; set; }
+        public virtual ICollection<ClassTimeTablePeriodAssignTeacher> UpdatedClassTimeTablePeriodAssignTeachers { get; set; }
 
         #endregion
 

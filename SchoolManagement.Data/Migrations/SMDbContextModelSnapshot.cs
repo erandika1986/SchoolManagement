@@ -169,11 +169,21 @@ namespace SchoolManagement.Data.Migrations
                     b.Property<long>("AcademicYearId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("ClassCategory")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.Property<long>("CreatedById")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("LanguageStream")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(2);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -372,6 +382,9 @@ namespace SchoolManagement.Data.Migrations
                     b.Property<long>("SubjectId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("TimeTableId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("UpdatedById")
                         .HasColumnType("bigint");
 
@@ -386,13 +399,15 @@ namespace SchoolManagement.Data.Migrations
 
                     b.HasIndex("PeriodId");
 
+                    b.HasIndex("TimeTableId");
+
                     b.HasIndex("UpdatedById");
 
                     b.HasIndex("SubjectId", "AcademicLevelId");
 
                     b.HasIndex("ClassNameId", "AcademicLevelId", "AcademicYearId");
 
-                    b.ToTable("ClassTimeTablePeriod","Master");
+                    b.ToTable("ClassTimeTablePeriod","TimeTable");
                 });
 
             modelBuilder.Entity("SchoolManagement.Model.ClassTimeTablePeriodAssignTeacher", b =>
@@ -439,7 +454,7 @@ namespace SchoolManagement.Data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("ClassTimeTablePeriodAssignTeacher","Master");
+                    b.ToTable("ClassTimeTablePeriodAssignTeacher","TimeTable");
                 });
 
             modelBuilder.Entity("SchoolManagement.Model.Day", b =>
@@ -1017,89 +1032,89 @@ namespace SchoolManagement.Data.Migrations
                         {
                             Id = 1L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 256, DateTimeKind.Utc).AddTicks(8896),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(193),
                             Description = "SuperAdmin",
                             IsActive = true,
                             Name = "SuperAdmin",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(659)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(2053)
                         },
                         new
                         {
                             Id = 2L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3620),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6237),
                             Description = "Admin",
                             IsActive = true,
                             Name = "Admin",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3638)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6261)
                         },
                         new
                         {
                             Id = 3L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3692),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6405),
                             Description = "Principle",
                             IsActive = true,
                             Name = "Principle",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3693)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6406)
                         },
                         new
                         {
                             Id = 4L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3694),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6407),
                             Description = "LevelHead",
                             IsActive = true,
                             Name = "LevelHead",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3695)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6412)
                         },
                         new
                         {
                             Id = 5L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3695),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6413),
                             Description = "HOD",
                             IsActive = true,
                             Name = "HOD",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3696)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6413)
                         },
                         new
                         {
                             Id = 6L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3697),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6415),
                             Description = "Teacher",
                             IsActive = true,
                             Name = "Teacher",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3697)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6416)
                         },
                         new
                         {
                             Id = 7L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3698),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6418),
                             Description = "Student",
                             IsActive = true,
                             Name = "Student",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3698)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6419)
                         },
                         new
                         {
                             Id = 8L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3699),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6420),
                             Description = "Parent",
                             IsActive = true,
                             Name = "Parent",
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 257, DateTimeKind.Utc).AddTicks(3699)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 482, DateTimeKind.Utc).AddTicks(6420)
                         });
                 });
 
@@ -1375,6 +1390,11 @@ namespace SchoolManagement.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("SubjectStream")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
                     b.Property<long>("UpdatedById")
                         .HasColumnType("bigint");
 
@@ -1494,6 +1514,48 @@ namespace SchoolManagement.Data.Migrations
                     b.HasIndex("ClassNameId", "ClassAcademicLevelId", "ClassAcademicYearId");
 
                     b.ToTable("SubjectTeacher","Master");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Model.TimeTable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("AcademicYearId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("CreatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublished")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("UpdatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AcademicYearId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("TimeTable","TimeTable");
                 });
 
             modelBuilder.Entity("SchoolManagement.Model.Topic", b =>
@@ -1632,27 +1694,27 @@ namespace SchoolManagement.Data.Migrations
                         new
                         {
                             Id = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 245, DateTimeKind.Utc).AddTicks(7609),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 450, DateTimeKind.Utc).AddTicks(743),
                             Email = "erandika1986@gmail.com",
                             FullName = "SuperAdmin",
                             IsActive = true,
                             MobileNo = "0702605650",
                             NickName = "SuperAdmin",
                             Password = "HGnySkxIrdSxVCdICLWgVQxx",
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 245, DateTimeKind.Utc).AddTicks(8266),
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 450, DateTimeKind.Utc).AddTicks(1703),
                             Username = "erandika1986@gmail.com"
                         },
                         new
                         {
                             Id = 2L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 246, DateTimeKind.Utc).AddTicks(1437),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 450, DateTimeKind.Utc).AddTicks(4495),
                             Email = "erandika.du@gmail.com",
                             FullName = "Admin",
                             IsActive = true,
                             MobileNo = "0702605651",
                             NickName = "Admin",
                             Password = "HGnySkxIrdSxVCdICLWgVQxx",
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 246, DateTimeKind.Utc).AddTicks(1447),
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 450, DateTimeKind.Utc).AddTicks(4506),
                             Username = "erandika.du@gmail.com"
                         });
                 });
@@ -1696,20 +1758,20 @@ namespace SchoolManagement.Data.Migrations
                             UserId = 1L,
                             RoleId = 1L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 275, DateTimeKind.Utc).AddTicks(2902),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 523, DateTimeKind.Utc).AddTicks(2992),
                             IsActive = true,
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 275, DateTimeKind.Utc).AddTicks(3800)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 523, DateTimeKind.Utc).AddTicks(4192)
                         },
                         new
                         {
                             UserId = 2L,
                             RoleId = 2L,
                             CreatedById = 1L,
-                            CreatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 275, DateTimeKind.Utc).AddTicks(7279),
+                            CreatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 524, DateTimeKind.Utc).AddTicks(125),
                             IsActive = true,
                             UpdatedById = 1L,
-                            UpdatedOn = new DateTime(2020, 7, 11, 9, 48, 49, 275, DateTimeKind.Utc).AddTicks(7290)
+                            UpdatedOn = new DateTime(2020, 8, 9, 3, 36, 53, 524, DateTimeKind.Utc).AddTicks(146)
                         });
                 });
 
@@ -1913,6 +1975,12 @@ namespace SchoolManagement.Data.Migrations
                     b.HasOne("SchoolManagement.Model.Period", "Period")
                         .WithMany("ClassTimeTablePeriods")
                         .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManagement.Model.TimeTable", "TimeTable")
+                        .WithMany("ClassTimeTablePeriods")
+                        .HasForeignKey("TimeTableId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -2428,6 +2496,25 @@ namespace SchoolManagement.Data.Migrations
                     b.HasOne("SchoolManagement.Model.Class", null)
                         .WithMany("SubjectTeachers")
                         .HasForeignKey("ClassNameId", "ClassAcademicLevelId", "ClassAcademicYearId");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Model.TimeTable", b =>
+                {
+                    b.HasOne("SchoolManagement.Model.AcademicYear", "AcademicYear")
+                        .WithMany("TimeTables")
+                        .HasForeignKey("AcademicYearId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManagement.Model.User", "CreatedBy")
+                        .WithMany("CreatedTimeTables")
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("SchoolManagement.Model.User", "UpdatedBy")
+                        .WithMany("UpdatedTimeTables")
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("SchoolManagement.Model.Topic", b =>

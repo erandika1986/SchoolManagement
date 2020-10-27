@@ -13,6 +13,7 @@ namespace SchoolManagement.Model
         public bool IsParentBasketSubject { get; set; }
         public bool IsBuscketSubject { get; set; }
         public long? ParentBasketSubjectId { get; set; }
+        public ALSubjectStream SubjectStream { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedOn { get; set; }
         public long CreatedById { get; set; }

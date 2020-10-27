@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolManagement.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,8 @@ namespace SchoolManagement.ViewModel.Admin.ClassSubjectTeacher
         public long AcademicYearId { get; set; }
         public long AcademicLevelId { get; set; }
         public long ClassNameId { get; set; }
+        public ClassCategory ClassCategory { get; set; }
+        public LanguageStream LanguageStream { get; set; }
 
         public string AcademicLevelName { get; set; }
         public string Name { get; set; }
@@ -31,6 +34,8 @@ namespace SchoolManagement.ViewModel.Admin.ClassSubjectTeacher
         public long SelectedClassTeacherId { get; set; }
         public bool IsvalidClassTeacher { get; set; }
         public string ValidationMsg { get; set; }
+        public ClassCategory SelectedClassCategory { get; set; }
+        public LanguageStream SelectedLanguageStream { get; set; }
 
         //public List<ClassTeacherViewModel> ClassTeachers { get; set; }
         public List<SubjectTeacherViewModel> ClassSubjectTeachers { get; set; }

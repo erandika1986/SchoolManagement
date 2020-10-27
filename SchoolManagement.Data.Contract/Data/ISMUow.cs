@@ -26,6 +26,7 @@ namespace SchoolManagement.Data
         IRepository<ClassName> ClassNames { get; }
         IRepository<ClassSubjectTeacher> ClassSubjectTeachers { get; }
         IRepository<ClassTeacher> ClassTeachers { get; }
+        IRepository<TimeTable> TimeTables { get; }
         IRepository<ClassTimeTablePeriod> ClassTimeTablePeriods { get; }
         IRepository<ClassTimeTablePeriodAssignTeacher> ClassTimeTablePeriodAssignTeachers { get; }
         IRepository<Day> Days { get; }

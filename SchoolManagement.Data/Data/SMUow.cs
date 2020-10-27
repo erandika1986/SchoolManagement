@@ -52,6 +52,8 @@ namespace SchoolManagement.Data
 
         public IRepository<ClassTeacher> ClassTeachers { get { return GetRepositoryByModel<ClassTeacher>(); } }
 
+        public IRepository<TimeTable> TimeTables { get { return GetRepositoryByModel<TimeTable>(); } }
+
         public IRepository<ClassTimeTablePeriod> ClassTimeTablePeriods { get { return GetRepositoryByModel<ClassTimeTablePeriod>(); } }
 
         public IRepository<ClassTimeTablePeriodAssignTeacher> ClassTimeTablePeriodAssignTeachers { get { return GetRepositoryByModel<ClassTimeTablePeriodAssignTeacher>(); } }

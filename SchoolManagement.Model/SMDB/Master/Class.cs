@@ -9,7 +9,9 @@ namespace SchoolManagement.Model
         public long ClassNameId { get; set; }
         public long AcademicLevelId { get; set; }
         public long AcademicYearId { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }    
+        public ClassCategory ClassCategory { get; set; }
+        public LanguageStream LanguageStream { get; set; }
 
         public virtual ClassName ClassName { get; set; }
         public virtual AcademicLevel AcademicLevel { get; set; }

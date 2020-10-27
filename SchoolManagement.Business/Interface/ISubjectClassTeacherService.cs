@@ -1,4 +1,5 @@
-﻿using SchoolManagement.ViewModel;
+﻿using SchoolManagement.Model;
+using SchoolManagement.ViewModel;
 using SchoolManagement.ViewModel.Admin.ClassSubjectTeacher;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SchoolManagement.Business.Interface
     public interface ISubjectClassTeacherService
     {
         PaginatedItemsViewModel<ClassSubjectTeacherBasicDetailViewModel> GetAllSubjectClassTeachers(int currentPage, int pageSize, string sortBy,int academicYearId,int academicLevelId);
-        ClassSubjectTeacherViewModel GetSelectedSubjectClassTeacherDetails(int academicYearId,int academicLevelId,int classNameId);
+        ClassSubjectTeacherViewModel GetSelectedSubjectClassTeacherDetails(int academicYearId,int academicLevelId,int classNameId, ClassCategory classCategory);
         Task<ResponseViewModel> SaveClassSubjectTeacherDetails(ClassSubjectTeacherViewModel vm, string userName);
         Task<ResponseViewModel> DeleteClassSubjectTeacher(int academicYearId, int academicLevelId, int classNameId);
         ClassSubjectTeacherMasterDataViewModel GetClassSubjectTeacherMasterData();

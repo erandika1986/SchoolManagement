@@ -1,6 +1,7 @@
 
 import { BasicSubjectModel } from '../common/basic-subject.model';
 import { BasicAcademicLevel } from '../common/basic-academic-level.model';
+import { DropDownModel } from '../../common/drop-down.model';
 
 export class SubjectModel {
     id: number;
@@ -9,6 +10,7 @@ export class SubjectModel {
     isParentBasketSubject: boolean;
     isBasketSubject: boolean;
     subjectCategory: number;
+    subjectStream: number;
     isActive: boolean;
     createdOn: Date;
     createdById: number;
@@ -18,4 +20,5 @@ export class SubjectModel {
     academicLevels: BasicAcademicLevel[];
     parentSubjectId: number;
     parentSubjects: BasicSubjectModel[];
+    subjectStreams: DropDownModel[];
 }

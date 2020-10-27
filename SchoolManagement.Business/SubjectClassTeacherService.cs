@@ -76,14 +76,16 @@ namespace SchoolManagement.Business
             {
                 vms.Add(new ClassSubjectTeacherBasicDetailViewModel()
                 {
-                    AcademicYearId=u.AcademicYearId,
-                    AcademicLevelId=u.AcademicLevelId,
-                    AcademicLevelName=u.Class.AcademicLevel.Description,
+                    AcademicYearId = u.AcademicYearId,
+                    AcademicLevelId = u.AcademicLevelId,
+                    AcademicLevelName = u.Class.AcademicLevel.Description,
                     ClassNameId = u.ClassNameId,
+                    ClassCategory = u.Class.ClassCategory,
+                    LanguageStream = u.Class.LanguageStream,
                     Name = u.Class.Name,
                     UpdatedBy = u.UpdatedBy.FullName,
-                    UpdatedOn= u.UpdatedOn.ToShortDateString()
-                }); 
+                    UpdatedOn = u.UpdatedOn.ToShortDateString()
+                }); ; 
             });
 
 
@@ -92,12 +94,14 @@ namespace SchoolManagement.Business
             return container;
         }
 
-        public ClassSubjectTeacherViewModel GetSelectedSubjectClassTeacherDetails(int academicYearId, int academicLevelId, int classNameId)
+        public ClassSubjectTeacherViewModel GetSelectedSubjectClassTeacherDetails(int academicYearId, int academicLevelId, int classNameId,ClassCategory classCategory)
         {
             var response = new ClassSubjectTeacherViewModel();
 
             var classSubjectTeachers = uow.ClassSubjectTeachers.GetAll()
                 .Where(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId && t.ClassNameId == classNameId && t.IsActive==true && t.EndDate==(DateTime?)null).ToList();
+
+            
 
             if(classSubjectTeachers.Count>0)
             {
@@ -162,6 +166,35 @@ namespace SchoolManagement.Business
         .Where(t => t.AcademicLevelId == academicLevelId && t.Subject.IsActive == true
         && (t.Subject.IsParentBasketSubject == false || t.Subject.IsBuscketSubject == true)).OrderBy(t => t.Subject.Name).ToList();
 
+                //var academicLevel12 = uow.AcademicLevels.GetAll().FirstOrDefault(t => t.Description == Constants.GRADE12);
+                //var academicLevel13 = uow.AcademicLevels.GetAll().FirstOrDefault(t => t.Description == Constants.GRADE13);
+
+                //if(academicLevelId==academicLevel12.Id || academicLevelId==academicLevel13.Id)
+                //{
+                //    var availableClass = uow.Classes.GetAll().FirstOrDefault(t => t.AcademicYearId == academicYearId && t.AcademicLevelId == academicLevelId && t.ClassNameId == classNameId);
+
+                //    if (classCategory == ClassCategory.ALevelBio)
+                //    {
+                //        academicLevelSubjects = academicLevelSubjects.Where(t => t.Subject.SubjectStream == ALSubjectStream.Bio || t.Subject.Name == Constants.PHYSICS_SUBJECT || t.Subject.Name == Constants.PHYSICS_SUBJECT).ToList();
+                //    }
+                //    else if (classCategory == ClassCategory.ALevelCommerce && availableClass.ClassName.Name== "12-Commerce-English" )
+                //    {
+                //        academicLevelSubjects = academicLevelSubjects.Where(t => t.Subject.Name == Constants.AL_ICT_SUBJECT || t.Subject.Name==Constants.ACC_SUBJECT || t.Subject.Name == Constants.BS_SUBJECT).ToList();
+                //    }
+                //    else if (classCategory == ClassCategory.ALevelCommerce && (availableClass.ClassName.Name == "12-Commerce-Sinhala" || availableClass.ClassName.Name == "13-Commerce-Sinhala"))
+                //    {
+                //        academicLevelSubjects = academicLevelSubjects.Where(t => t.Subject.Name == Constants.ACC_SUBJECT || t.Subject.Name == Constants.BS_SUBJECT || t.Subject.Name == Constants.ECON_SUBJECT).ToList();
+                //    }
+                //    else if (classCategory == ClassCategory.ALevelMaths)
+                //    {
+                //        academicLevelSubjects = academicLevelSubjects.Where(t => t.Subject.SubjectStream == ALSubjectStream.Maths || t.Subject.Name == Constants.PHYSICS_SUBJECT || t.Subject.Name == Constants.PHYSICS_SUBJECT || t.Subject.Name == Constants.AL_ICT_SUBJECT).ToList();
+                //    }
+                //    else if (classCategory == ClassCategory.ALevelTechnology)
+                //    {
+                //        academicLevelSubjects = academicLevelSubjects.Where(t => t.Subject.SubjectStream == ALSubjectStream.Technology).ToList();
+                //    }
+                //}
+
                 foreach (var item in academicLevelSubjects)
                 {
 
@@ -190,12 +223,24 @@ namespace SchoolManagement.Business
             {
                 var user = uow.Users.GetAll().FirstOrDefault(t => t.Username == userName);
 
+                var matchingClass = uow.Classes.GetAll().FirstOrDefault(t => t.AcademicYearId == vm.AcademicYearId && t.AcademicLevelId == vm.AcademicLevelId && t.ClassNameId == vm.ClassNameId);
+                matchingClass.ClassCategory = vm.SelectedClassCategory;
+                matchingClass.LanguageStream = vm.SelectedLanguageStream;
+
+                uow.Classes.Update(matchingClass);
 
                 //For Class Teacher assign
-                var savedClassTeacher = uow.ClassTeachers.GetAll().FirstOrDefault(t => t.AcademicYearId == vm.AcademicYearId && t.AcademicLevelId == vm.AcademicLevelId && t.ClassNameId == vm.ClassNameId && t.IsPrimary==true) ;
+                var savedClassTeacher = uow.ClassTeachers.GetAll().FirstOrDefault(t => t.AcademicYearId == vm.AcademicYearId && t.AcademicLevelId == vm.AcademicLevelId && t.ClassNameId == vm.ClassNameId && t.IsPrimary == true);
 
-                if(savedClassTeacher==null)
+                if (savedClassTeacher == null)
                 {
+                    if(vm.SelectedClassTeacherId==0)
+                    {
+                        response.IsSuccess = false;
+                        response.Message = "Class teacher should assigned. Please try again.";
+
+                        return response;
+                    }
                     var classTeacher = new ClassTeacher()
                     {
                         ClassNameId = vm.ClassNameId,
@@ -220,72 +265,153 @@ namespace SchoolManagement.Business
                     uow.ClassTeachers.Update(savedClassTeacher);
                 }
 
-
-
                 //For Class Subject teacher assign
-                var academicLevelSubjects = uow.SubjectAcademicLevels.GetAll().Where(t => t.AcademicLevelId == vm.AcademicLevelId && t.Subject.IsActive==true && (t.Subject.IsParentBasketSubject == false || t.Subject.IsBuscketSubject == true)).ToList();
+                var academicLevelSubjects = uow.SubjectAcademicLevels.GetAll().Where(t => t.AcademicLevelId == vm.AcademicLevelId && t.Subject.IsActive == true && (t.Subject.IsParentBasketSubject == false || t.Subject.IsBuscketSubject == true)).ToList();
                 foreach (var item in academicLevelSubjects)
                 {
-                    var matchingSubjectAllocation = uow.ClassSubjectTeachers.GetAll()
-                        .FirstOrDefault(t => t.ClassNameId == vm.ClassNameId && t.AcademicLevelId == vm.AcademicLevelId && t.AcademicYearId == vm.AcademicYearId && t.SubjectId == item.SubjectId && t.IsActive == true);
-
-                    var currentSubjectUsers = vm.ClassSubjectTeachers.FirstOrDefault(t => t.SelectedSubjectId == item.SubjectId);
-
-                    if(matchingSubjectAllocation==null)
+                    if(item.Subject.Name.Trim().ToUpper() != Constants.PRESENTATION.Trim().ToUpper())
                     {
-                        matchingSubjectAllocation = new ClassSubjectTeacher()
-                        {
-                            ClassNameId = vm.ClassNameId,
-                            AcademicLevelId = vm.AcademicLevelId,
-                            AcademicYearId = vm.AcademicYearId,
-                            SubjectId = item.SubjectId,
-                            SubjectTeacherId = currentSubjectUsers.SelectedTeacherId,
-                            StartDate = DateTime.UtcNow,
-                            IsActive = true,
-                            CreatedOn = DateTime.UtcNow,
-                            CreatedById = user.Id,
-                            UpdatedOn = DateTime.UtcNow,
-                            UpdatedById = user.Id
-                        };
+                        var matchingSubjectAllocation = uow.ClassSubjectTeachers.GetAll()
+    .FirstOrDefault(t => t.ClassNameId == vm.ClassNameId && t.AcademicLevelId == vm.AcademicLevelId && t.AcademicYearId == vm.AcademicYearId && t.SubjectId == item.SubjectId && t.IsActive == true);
 
-                        uow.ClassSubjectTeachers.Add(matchingSubjectAllocation);
+                        var currentSubjectUsers = vm.ClassSubjectTeachers.FirstOrDefault(t => t.SelectedSubjectId == item.SubjectId);
+
+                        if (currentSubjectUsers.SelectedTeacherId == 0)
+                        {
+                            response.IsSuccess = false;
+                            response.Message = string.Format("For {0} subject teacher should be assigned. Please try again.",item.Subject.Name);
+
+                            return response;
+                        }
+
+                        if (matchingSubjectAllocation == null)
+                        {
+                            matchingSubjectAllocation = new ClassSubjectTeacher()
+                            {
+                                ClassNameId = vm.ClassNameId,
+                                AcademicLevelId = vm.AcademicLevelId,
+                                AcademicYearId = vm.AcademicYearId,
+                                SubjectId = item.SubjectId,
+                                SubjectTeacherId = currentSubjectUsers.SelectedTeacherId,
+                                StartDate = DateTime.UtcNow,
+                                IsActive = true,
+                                CreatedOn = DateTime.UtcNow,
+                                CreatedById = user.Id,
+                                UpdatedOn = DateTime.UtcNow,
+                                UpdatedById = user.Id
+                            };
+
+                            uow.ClassSubjectTeachers.Add(matchingSubjectAllocation);
+
+                            if ((item.AcademicLevel.Description == "Grade 6" ||
+                                item.AcademicLevel.Description == "Grade 7" ||
+                                item.AcademicLevel.Description == "Grade 8" ||
+                                item.AcademicLevel.Description == "Grade 9") && (item.Subject.Name == Constants.HEALTH || item.Subject.Name == Constants.MATHS || item.Subject.Name == Constants.SCIENCE))
+                            {
+                                var presentationSubject = uow.Subjects.GetAll().FirstOrDefault(t => t.Name.Trim().ToUpper() == Constants.PRESENTATION.Trim().ToUpper());
+
+                                if (presentationSubject != null)
+                                {
+                                    var presentationSubjectTeacher = new ClassSubjectTeacher()
+                                    {
+                                        ClassNameId = vm.ClassNameId,
+                                        AcademicLevelId = vm.AcademicLevelId,
+                                        AcademicYearId = vm.AcademicYearId,
+                                        SubjectId = presentationSubject.Id,
+                                        SubjectTeacherId = currentSubjectUsers.SelectedTeacherId,
+                                        StartDate = DateTime.UtcNow,
+                                        IsActive = true,
+                                        CreatedOn = DateTime.UtcNow,
+                                        CreatedById = user.Id,
+                                        UpdatedOn = DateTime.UtcNow,
+                                        UpdatedById = user.Id
+                                    };
+
+                                    uow.ClassSubjectTeachers.Add(presentationSubjectTeacher);
+                                }
+
+
+                            }
+
+                        }
+                        else if (matchingSubjectAllocation.SubjectTeacherId != currentSubjectUsers.SelectedTeacherId)
+                        {
+                            matchingSubjectAllocation.IsActive = false;
+                            matchingSubjectAllocation.EndDate = DateTime.UtcNow;
+                            matchingSubjectAllocation.UpdatedById = user.Id;
+                            matchingSubjectAllocation.UpdatedOn = DateTime.UtcNow;
+
+                            uow.ClassSubjectTeachers.Update(matchingSubjectAllocation);
+
+                            matchingSubjectAllocation = new ClassSubjectTeacher()
+                            {
+                                ClassNameId = vm.ClassNameId,
+                                AcademicLevelId = vm.AcademicLevelId,
+                                AcademicYearId = vm.AcademicYearId,
+                                SubjectId = item.SubjectId,
+                                SubjectTeacherId = currentSubjectUsers.SelectedTeacherId,
+                                StartDate = DateTime.UtcNow,
+                                IsActive = true,
+                                CreatedOn = DateTime.UtcNow,
+                                CreatedById = user.Id,
+                                UpdatedOn = DateTime.UtcNow,
+                                UpdatedById = user.Id
+                            };
+
+                            uow.ClassSubjectTeachers.Add(matchingSubjectAllocation);
+
+                            if ((item.AcademicLevel.Description == "Grade 6" ||
+        item.AcademicLevel.Description == "Grade 7" ||
+        item.AcademicLevel.Description == "Grade 8" ||
+        item.AcademicLevel.Description == "Grade 9") && (item.Subject.Name == Constants.HEALTH || item.Subject.Name == Constants.MATHS || item.Subject.Name == Constants.SCIENCE))
+                            {
+                                var presentationSubject = uow.Subjects.GetAll().FirstOrDefault(t => t.Name.Trim().ToUpper() == Constants.PRESENTATION.Trim().ToUpper());
+
+                                if (presentationSubject != null)
+                                {
+                                    var matchingPresentationSubject = uow.ClassSubjectTeachers.GetAll().FirstOrDefault(t => t.ClassNameId == vm.ClassNameId &&
+                                        t.AcademicLevelId == vm.AcademicLevelId &&
+                                        t.AcademicYearId == vm.AcademicYearId &&
+                                        t.SubjectId == presentationSubject.Id &&
+                                        t.IsActive == true);
+
+                                    matchingPresentationSubject.IsActive = false;
+                                    matchingPresentationSubject.EndDate = DateTime.UtcNow;
+                                    matchingPresentationSubject.UpdatedById = user.Id;
+                                    matchingPresentationSubject.UpdatedOn = DateTime.UtcNow;
+
+                                    var presentationSubjectTeacher = new ClassSubjectTeacher()
+                                    {
+                                        ClassNameId = vm.ClassNameId,
+                                        AcademicLevelId = vm.AcademicLevelId,
+                                        AcademicYearId = vm.AcademicYearId,
+                                        SubjectId = presentationSubject.Id,
+                                        SubjectTeacherId = currentSubjectUsers.SelectedTeacherId,
+                                        StartDate = DateTime.UtcNow,
+                                        IsActive = true,
+                                        CreatedOn = DateTime.UtcNow,
+                                        CreatedById = user.Id,
+                                        UpdatedOn = DateTime.UtcNow,
+                                        UpdatedById = user.Id
+                                    };
+
+                                    uow.ClassSubjectTeachers.Add(presentationSubjectTeacher);
+                                }
+
+
+                            }
+                        }
+
+
                         await uow.CommitAsync();
                     }
-                    else if(matchingSubjectAllocation.SubjectTeacherId!=currentSubjectUsers.SelectedTeacherId)
-                    {
-                        matchingSubjectAllocation.IsActive = false;
-                        matchingSubjectAllocation.EndDate = DateTime.UtcNow;
-                        matchingSubjectAllocation.UpdatedById = user.Id;
-                        matchingSubjectAllocation.UpdatedOn = DateTime.UtcNow;
 
-                        uow.ClassSubjectTeachers.Update(matchingSubjectAllocation);
 
-                        matchingSubjectAllocation = new ClassSubjectTeacher()
-                        {
-                            ClassNameId = vm.ClassNameId,
-                            AcademicLevelId = vm.AcademicLevelId,
-                            AcademicYearId = vm.AcademicYearId,
-                            SubjectId = item.SubjectId,
-                            SubjectTeacherId = currentSubjectUsers.SelectedTeacherId,
-                            StartDate = DateTime.UtcNow,
-                            IsActive = true,
-                            CreatedOn = DateTime.UtcNow,
-                            CreatedById = user.Id,
-                            UpdatedOn = DateTime.UtcNow,
-                            UpdatedById = user.Id
-                        };
 
-                        uow.ClassSubjectTeachers.Add(matchingSubjectAllocation);
-                        await uow.CommitAsync();
-                    }
+                    response.IsSuccess = true;
+                    response.Message = "Class Teachers and Subject Teachers has been assigned to the selected class successfully.";
+
                 }
-                
-
-                //await uow.CommitAsync();
-
-                response.IsSuccess = true;
-                response.Message = "Class Teachers and Subject Teachers has been assigned to the selected class successfully.";
-
             }
             catch (Exception ex)
             {
@@ -312,6 +438,16 @@ namespace SchoolManagement.Business
             {
                 response.AcademicLevels.Add(new DropDownViewModal() { Id = t.Id, Name = t.Description });
             });
+
+            foreach (ClassCategory bn in (ClassCategory[])Enum.GetValues(typeof(ClassCategory)))
+            {
+                response.ClassCategories.Add(new DropDownViewModal() { Id = (int)bn, Name = EnumHelper.GetEnumDescription(bn) });
+            }
+
+            foreach (LanguageStream bn in (LanguageStream[])Enum.GetValues(typeof(LanguageStream)))
+            {
+                response.LanguageStreams.Add(new DropDownViewModal() { Id = (int)bn, Name = EnumHelper.GetEnumDescription(bn) });
+            }
 
             return response;
         }

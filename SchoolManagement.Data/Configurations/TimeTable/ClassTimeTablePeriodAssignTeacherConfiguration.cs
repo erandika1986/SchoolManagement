@@ -11,7 +11,7 @@ namespace SchoolManagement.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<ClassTimeTablePeriodAssignTeacher> builder)
         {
-            builder.ToTable("ClassTimeTablePeriodAssignTeacher", Schema.MASTER);
+            builder.ToTable("ClassTimeTablePeriodAssignTeacher", Schema.TIMETABLE);
 
             builder.HasKey(x => x.Id);
 

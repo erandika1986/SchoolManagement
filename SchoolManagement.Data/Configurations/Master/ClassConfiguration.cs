@@ -16,7 +16,12 @@ namespace SchoolManagement.Data.Configurations
 
             builder.HasKey(x => new { x.ClassNameId,x.AcademicLevelId,x.AcademicYearId});
 
+            builder.Property(e => e.ClassCategory)
+                .HasDefaultValue(ClassCategory.OLevel);
 
+            builder.Property(e => e.LanguageStream)
+                 .HasDefaultValue(LanguageStream.English);
+                
 
             builder
                 .HasOne<ClassName>(c => c.ClassName)

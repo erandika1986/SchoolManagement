@@ -61,8 +61,7 @@ namespace SchoolManagement.Data
             modelBuilder.ApplyConfiguration(new ClassNameConfiguration());
             modelBuilder.ApplyConfiguration(new ClassSubjectTeacherConfiguration());
             modelBuilder.ApplyConfiguration(new ClassTeacherConfiguration());
-            modelBuilder.ApplyConfiguration(new ClassTimeTablePeriodAssignTeacherConfiguration());
-            modelBuilder.ApplyConfiguration(new ClassTimeTablePeriodConfiguration());
+
             modelBuilder.ApplyConfiguration(new DayConfiguration());
             modelBuilder.ApplyConfiguration(new HeadOfDepartmentConfiguration());
             modelBuilder.ApplyConfiguration(new LockingDateConfiguration());
@@ -74,6 +73,11 @@ namespace SchoolManagement.Data
             modelBuilder.ApplyConfiguration(new SubjectConfiguration());
             //modelBuilder.ApplyConfiguration(new BasketSubjectConfiguration());
             modelBuilder.ApplyConfiguration(new SubjectTeacherConfiguration());
+
+            // For TimeTable Entities
+            modelBuilder.ApplyConfiguration(new TimeTableConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassTimeTablePeriodAssignTeacherConfiguration());
+            modelBuilder.ApplyConfiguration(new ClassTimeTablePeriodConfiguration());
 
             //Lesson Entities
             modelBuilder.ApplyConfiguration(new LessonConfiguration());
@@ -106,8 +110,6 @@ namespace SchoolManagement.Data
         public DbSet<ClassName> ClassNames { get; set; }
         public DbSet<ClassSubjectTeacher> ClassSubjectTeachers { get; set; }
         public DbSet<ClassTeacher> ClassTeachers { get; set; }
-        public DbSet<ClassTimeTablePeriod> ClassTimeTablePeriods { get; set; }
-        public DbSet<ClassTimeTablePeriodAssignTeacher> ClassTimeTablePeriodAssignTeachers { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<HeadOfDepartment> HeadOfDepartments { get; set; }
         public DbSet<LockingDate> LockingDates { get; set; }
@@ -119,6 +121,11 @@ namespace SchoolManagement.Data
         //public DbSet<BasketSubject> BasketSubjects { get; set; }
         public DbSet<SubjectAcademicLevel> SubjectAcademicLevels { get; set; }
         public DbSet<SubjectTeacher> SubjectTeachers { get; set; }
+
+        //TimeTable Entities
+        public DbSet<TimeTable> TimeTables { get; set; }
+        public DbSet<ClassTimeTablePeriod> ClassTimeTablePeriods { get; set; }
+        public DbSet<ClassTimeTablePeriodAssignTeacher> ClassTimeTablePeriodAssignTeachers { get; set; }
 
         //Analysis Entities
         public DbSet<Grade> Grades { get; set; }

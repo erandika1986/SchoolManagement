@@ -3,9 +3,16 @@ import { Component } from '@angular/core';
 
 export const navItems: INavData[] = [
     {
-        name: 'School Management',
+        name: 'Time Table',
         url: '/home',
-        icon: 'icon-speedometer'
+        icon: 'icon-speedometer',
+        children: [
+            {
+                name: 'Time Tables',
+                url: '/time-table/time-table-list',
+                icon: 'icon-drop'
+            }
+        ]
     },
     {
         name: 'Admin',

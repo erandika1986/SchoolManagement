@@ -18,6 +18,9 @@ namespace SchoolManagement.Data.Configurations
             builder.HasAlternateKey(x => x.Name);
             builder.HasAlternateKey(x => x.SubjectCode);
 
+            builder.Property(e => e.SubjectStream)
+                .HasDefaultValue(ALSubjectStream.None);
+
             builder
                 .HasOne<User>(s => s.CreatedBy)
                 .WithMany(r => r.CreatedSubjects)

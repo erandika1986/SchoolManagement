@@ -11,7 +11,7 @@ namespace SchoolManagement.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<ClassTimeTablePeriod> builder)
         {
-            builder.ToTable("ClassTimeTablePeriod", "Master");
+            builder.ToTable("ClassTimeTablePeriod", Schema.TIMETABLE);
 
             builder.HasKey(x => x.Id);
 
@@ -31,6 +31,11 @@ namespace SchoolManagement.Data.Configurations
                 .HasOne<Period>(s => s.Period)
                 .WithMany(r => r.ClassTimeTablePeriods)
                 .HasForeignKey(f => f.PeriodId).OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .HasOne<TimeTable>(s => s.TimeTable)
+                .WithMany(r => r.ClassTimeTablePeriods)
+                .HasForeignKey(f => f.TimeTableId).OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .HasOne<SubjectAcademicLevel>(s => s.Subject)

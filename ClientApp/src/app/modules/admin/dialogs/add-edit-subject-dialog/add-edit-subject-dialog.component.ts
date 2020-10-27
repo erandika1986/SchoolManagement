@@ -24,6 +24,7 @@ export class AddEditSubjectDialogComponent implements OnInit {
   schoolTypes: DropDownModel[] = [];
   booleanSelection = [{ "value": true, "text": "Yes" }, { "value": false, "text": "No" }]
 
+  subjectStreams: DropDownModel[] = [];
 
   subject: SubjectModel;
 
@@ -45,6 +46,33 @@ export class AddEditSubjectDialogComponent implements OnInit {
     ddl2.name = "Senior School Subject";
     this.schoolTypes.push(ddl1);
     this.schoolTypes.push(ddl2);
+
+
+    let ssddl1: DropDownModel = new DropDownModel();
+    ssddl1.id = 1;
+    ssddl1.name = "None";
+
+    let ssddl2: DropDownModel = new DropDownModel();
+    ssddl2.id = 2;
+    ssddl2.name = "Maths";
+
+    let ssddl3: DropDownModel = new DropDownModel();
+    ssddl3.id = 3;
+    ssddl3.name = "Bio";
+
+    let ssddl4: DropDownModel = new DropDownModel();
+    ssddl4.id = 4;
+    ssddl4.name = "Commerce";
+
+    let ssddl5: DropDownModel = new DropDownModel();
+    ssddl5.id = 5;
+    ssddl5.name = "Technology";
+
+    this.subjectStreams.push(ssddl1);
+    this.subjectStreams.push(ssddl2);
+    this.subjectStreams.push(ssddl3);
+    this.subjectStreams.push(ssddl4);
+    this.subjectStreams.push(ssddl5);
   }
 
   ngOnInit(): void {
@@ -66,6 +94,7 @@ export class AddEditSubjectDialogComponent implements OnInit {
       isBasketSubject: [false],
       isParentBasketSubject: [false],
       subjectCategory: [1],
+      subjectStream: [1],
       isActive: [true],
       parentSubjectId: [0],
       academicLevels: new FormArray([])
@@ -77,6 +106,7 @@ export class AddEditSubjectDialogComponent implements OnInit {
       .subscribe(response => {
         this.subject = response;
         this.parentSubjects = response.parentSubjects;
+        //this.subjectStreams = response.subjectStreams;
 
         this.form.get('id').setValue(response.id);
         this.form.get('name').setValue(response.name);
@@ -84,6 +114,7 @@ export class AddEditSubjectDialogComponent implements OnInit {
         this.form.get('isBasketSubject').setValue(response.isBasketSubject);
         this.form.get('isParentBasketSubject').setValue(response.isParentBasketSubject);
         this.form.get('subjectCategory').setValue(response.subjectCategory);
+        this.form.get('subjectStream').setValue(response.subjectStream);
         this.form.get('isActive').setValue(response.isActive);
         this.form.get('parentSubjectId').setValue(response.parentSubjectId);
         let academicLevels = this.form.get("academicLevels") as FormArray;

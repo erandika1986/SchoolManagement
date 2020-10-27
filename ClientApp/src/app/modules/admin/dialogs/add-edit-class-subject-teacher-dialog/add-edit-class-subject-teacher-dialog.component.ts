@@ -24,6 +24,14 @@ export class AddEditClassSubjectTeacherDialogComponent implements OnInit, AfterV
 
   classes: DropDownModel[];
   selectedClassNameId: number;
+
+  classCategories: DropDownModel[];
+  selectedClassCategory: number;
+
+  languageStreams: DropDownModel[];
+  selectedLanguageStream: number;
+
+
   type: string;
 
   availableClassTeachers: DropDownModel[];
@@ -93,11 +101,9 @@ export class AddEditClassSubjectTeacherDialogComponent implements OnInit, AfterV
   }
 
   getClassSubjectTeacherDetail() {
-    this.classTeacherService.getSelectedSubjectClassTeacherDetails(this.selectedAcademicYearId, this.selectedAcademicLevelId, this.selectedClassNameId)
+    this.classTeacherService.getSelectedSubjectClassTeacherDetails(this.selectedAcademicYearId, this.selectedAcademicLevelId, this.selectedClassNameId, this.selectedClassCategory)
       .subscribe(response => {
         this.classSubjecTeacher = response;
-        console.log(response);
-        console.log("-----------------------");
         this.ngxSpinnerService.hide();
       }, error => {
         this.ngxSpinnerService.hide();
@@ -117,6 +123,11 @@ export class AddEditClassSubjectTeacherDialogComponent implements OnInit, AfterV
   }
 
   classOnChange() {
+    this.ngxSpinnerService.show();
+    this.getClassSubjectTeacherDetail();
+  }
+
+  classCategoryOnChange() {
     this.ngxSpinnerService.show();
     this.getClassSubjectTeacherDetail();
   }
@@ -157,7 +168,8 @@ export class AddEditClassSubjectTeacherDialogComponent implements OnInit, AfterV
     this.ngxSpinnerService.show();
 
 
-
+    this.classSubjecTeacher.selectedClassCategory = this.selectedClassCategory;
+    this.classSubjecTeacher.selectedLanguageStream = this.selectedLanguageStream;
     this.classTeacherService.saveClassSubjectTeacherDetails(this.classSubjecTeacher)
       .subscribe(response => {
 
@@ -170,6 +182,7 @@ export class AddEditClassSubjectTeacherDialogComponent implements OnInit, AfterV
           )
 
           this.classTeacherService.onNewRecordAdded.next(true);
+          this.bsModalRef.hide();
         }
         else {
           Swal.fire({

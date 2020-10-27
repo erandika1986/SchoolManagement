@@ -36,6 +36,11 @@ export class ClassSubjectTeacherComponent implements OnInit {
   academicLevels: DropDownModel[];
   selectedAcademicLevelId: number;
 
+  classCategories: DropDownModel[];
+  selectedClassCategory: number;
+
+  languageStreams: DropDownModel[];
+  selectedLanguageStream: number;
 
   constructor(
     private classSubjectTecherService: ClassTeacherService,
@@ -63,6 +68,12 @@ export class ClassSubjectTeacherComponent implements OnInit {
 
         this.academicLevels = response.academicLevels;
         this.selectedAcademicLevelId = this.academicLevels[0].id;
+
+        this.classCategories = response.classCategories;
+        this.selectedClassCategory = this.classCategories[0].id;
+
+        this.languageStreams = response.languageStreams;
+        this.selectedLanguageStream = this.languageStreams[0].id;
 
         this.getClassTeacherSubjectTeacherAllocations();
       }, error => {
@@ -101,7 +112,10 @@ export class ClassSubjectTeacherComponent implements OnInit {
     this.getClassTeacherSubjectTeacherAllocations();
   }
 
-  edit(academicYear: number, academicLevel: number, classNameId: number) {
+  edit(academicYear: number, academicLevel: number, classNameId: number, classCategory: number, languageStream: number) {
+
+    console.log(classCategory);
+    console.log(languageStream);
 
     const initialState = {
 
@@ -110,6 +124,10 @@ export class ClassSubjectTeacherComponent implements OnInit {
       academicLevels: this.academicLevels,
       selectedAcademicLevelId: academicLevel,
       selectedClassNameId: classNameId,
+      classCategories: this.classCategories,
+      selectedClassCategory: classCategory,
+      languageStreams: this.languageStreams,
+      selectedLanguageStream: languageStream,
       type: classNameId == 0 ? "new" : "edit"
     };
 

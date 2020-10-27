@@ -11,5 +11,6 @@ namespace SchoolManagement.Data
         public const string ANALYTICS = "Analytic";
         public const string MASTER = "Master";
         public const string LESSON = "Lesson";
+        public const string TIMETABLE = "TimeTable";
     }
 }

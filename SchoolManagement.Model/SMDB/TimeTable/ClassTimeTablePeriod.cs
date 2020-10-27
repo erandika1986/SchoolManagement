@@ -7,6 +7,7 @@ namespace SchoolManagement.Model
     public class ClassTimeTablePeriod
     {
         public long Id { get; set; }
+        public long TimeTableId { get; set; }
         public long ClassNameId { get; set; }
         public long AcademicLevelId { get; set; }
         public long AcademicYearId { get; set; }
@@ -30,7 +31,7 @@ namespace SchoolManagement.Model
 
         public virtual User CreatedBy { get; set; }
         public virtual User UpdatedBy { get; set; }
-
+        public virtual TimeTable TimeTable { get; set; }
 
         public virtual ICollection<ClassTimeTablePeriodAssignTeacher> ClassTimeTablePeriodAssignTeachers { get; set; }
 

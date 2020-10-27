@@ -21,5 +21,6 @@ namespace SchoolManagement.Model
         public virtual ICollection<LockingDate> LockingDates { get; set; }
         public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
         public virtual ICollection<SubjectTeacher> SubjectTeachers { get; set; }
+        public virtual ICollection<TimeTable> TimeTables { get; set; }
     }
 }

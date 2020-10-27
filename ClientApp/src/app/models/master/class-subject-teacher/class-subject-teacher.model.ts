@@ -6,6 +6,8 @@ export class ClassSubjectTeacherModel {
     academicLevelId: number;
     classNameId: number;
     selectedClassTeacherId: number;
+    selectedClassCategory: number;
+    selectedLanguageStream: number;
     isvalidClassTeacher: boolean;
     validationMsg: string;
 

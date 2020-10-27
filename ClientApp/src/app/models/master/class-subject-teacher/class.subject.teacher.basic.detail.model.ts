@@ -3,6 +3,8 @@ export class ClassSubjectTeacherBasicDetailModel {
     academicLevelId: number;
     academicLevelName: string;
     classNameId: number;
+    classCategory: number;
+    languageStream: number;
 
     name: string;
     updatedOn: string;
